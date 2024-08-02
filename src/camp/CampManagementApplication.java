@@ -4,9 +4,10 @@ import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Stream;
+
 
 /**
  * Notification
@@ -169,9 +170,54 @@ public class CampManagementApplication {
         System.out.println("\n수강생을 등록합니다...");
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
+        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
+
+        ArrayList<String> subjectTaken = new ArrayList<>();
+
+        System.out.println("수강하실 필수과목 3개의 코드를 입력해 주세요!");
+        System.out.println("[과목 코드] 과목 명");
+        for (Subject subject : subjectStore) {
+            if (subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY)) {
+                System.out.println("[" + subject.getSubjectId() + "] " + subject.getSubjectName() + subject.getSubjectType());
+            }
+        }
+        String exit = "";
+        while (!exit.equals("exit")) {
+            System.out.println("과목 코드 입력 : ");
+            String subjectId = sc.next();
+            for (Subject subject : subjectStore) {
+                if (subject.getSubjectId().equals(subjectId)) {
+                    subjectTaken.add(subjectId);
+                    System.out.println("해당 과목이 수강되셨습니다.");
+                    System.out.println(subjectTaken);
+                    break;
+                } else {
+                    System.out.println("과목 코드를 잘못 입력하셨습니다.");
+//                    break;
+                }
+            }
+            if (subjectTaken.size() >= 3) {
+                System.out.println("필수 과목 수강을 종료하시겠습니까? (종료를 원하시면 exit 입력)");
+                exit = sc.next();
+            } else {
+                continue;
+            }
+        }
+//        Stream<Subject> stream = subjectStore.stream();
+////        boolean iscontain = stream.allMatch("SU1"::equals);
+////        System.out.println(iscontain);
+//        boolean istrue = stream.allMatch(s-> s.getSubjectId().equals("SU1"));
+//        System.out.println(istrue);
+
+
+//        while(subjectTaken.size()<9){
+//            System.out.println("해당 과목 숫자 : ");
+//        }
+
+
         // 기능 구현 (필수 과목, 선택 과목)
 
-        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
+
         // 기능 구현
         System.out.println("수강생 등록 성공!\n");
     }
