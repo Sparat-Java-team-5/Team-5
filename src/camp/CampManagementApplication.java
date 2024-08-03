@@ -197,14 +197,21 @@ public class CampManagementApplication {
             System.out.println("과목 코드 입력 : ");
             String subjectId = sc.next();
 
+            //입력한 과목코드가 존재하는지 확인하는 변수
+            boolean isContain = false;
+
             for (Subject subject : subjectStore) {
                 //과목 저장소에 있는 과목코드 이고, 수강한 과목과 중복되지 않는 과목코드만 수강 가능
                 if (subject.getSubjectId().equals(subjectId) && subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY)) {
                     if (!subjectTaken.contains(subjectId)) { //중복 등록 방지
                         subjectTaken.add(subjectId); //필수 과목 리스트에 추가
                         System.out.println(subject.getSubjectName() + " 등록이 완료되었습니다.");
+                        isContain = true;
                     } else {
                         System.out.println(subject.getSubjectName() + " 과목은 이미 등록되었습니다.");
+                    }
+                    if(isContain == false){
+                        System.out.println("잘못된 입력입니다.");
                     }
 
                     //확인용 출력
@@ -228,6 +235,7 @@ public class CampManagementApplication {
                             System.out.println(subjectTaken);
                         } else {
                             System.out.println("잘못입력하였습니다.");
+                            break;
                         }
                     }
                 }
@@ -255,20 +263,28 @@ public class CampManagementApplication {
             System.out.println("과목 코드 입력 : ");
             String subjectId = sc.next();
 
+            //입력한 과목코드가 존재하는지 확인하는 변수
+            boolean isContain = false;
+
             for (Subject subject : subjectStore) {
                 //과목 저장소에 있는 과목코드 이고, 수강한 과목과 중복되지 않는 과목코드만 수강 가능
                 if (subject.getSubjectId().equals(subjectId) && subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)) {
                     if (!subjectTaken.contains(subjectId)) { //중복 등록 방지
                         subjectTaken.add(subjectId); //필수 과목 리스트에 추가
                         System.out.println(subject.getSubjectName() + " 등록이 완료되었습니다.");
+                        isContain = true;
                     } else {
                         System.out.println(subject.getSubjectName() + " 과목은 이미 등록되었습니다.");
+                    }
+                    if(isContain == false){
+                        System.out.println("잘못된 입력입니다.");
                     }
 
                     //확인용 출력
                     System.out.println(subjectTaken);
                     break;
                 }
+
 
                 if (5 <= subjectTaken.size() && subjectTaken.size() < 9) {
                     System.out.println("==================================");
