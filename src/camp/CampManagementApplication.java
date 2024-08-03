@@ -193,7 +193,7 @@ public class CampManagementApplication {
         //필수과목 수강 종료 입력 받기위한 변수
         boolean mandatory = true;
         //필수 과목 수강 신청
-        while (mandatory) {
+        while (mandatory && subjectTaken.size() < 5) {
             System.out.println("과목 코드 입력 : ");
             String subjectId = sc.next();
 
@@ -206,37 +206,35 @@ public class CampManagementApplication {
                     if (!subjectTaken.contains(subjectId)) { //중복 등록 방지
                         subjectTaken.add(subjectId); //필수 과목 리스트에 추가
                         System.out.println(subject.getSubjectName() + " 등록이 완료되었습니다.");
+                        System.out.println("[" + subjectId + "]");
                         isContain = true;
                     } else {
                         System.out.println(subject.getSubjectName() + " 과목은 이미 등록되었습니다.");
                     }
-                    if(isContain == false){
-                        System.out.println("잘못된 입력입니다.");
-                    }
-
-                    //확인용 출력
-                    System.out.println(subjectTaken);
-                    break;
                 }
+            }
+            if (!isContain) {
+                System.out.println("잘못된 입력입니다.");
+            }
 
-                if (3 <= subjectTaken.size() && subjectTaken.size() < 5) {
-                    System.out.println("==================================");
-                    System.out.println("필수 과목은 3개 이상만 수강하시면 됩니다.\n" +
-                            "필수 과목 수강을 종료하시겠습니까? (yes / no )");
-                    String exit = sc.next();
-                    while(true){
-                        if (exit.equals("no")) {
-                            System.out.println("필수 과목으로 이동합니다.");
-                            mandatory = false;
-                            break;
-                        }
-                        else if (exit.equals("yes")) {
-                            System.out.println("현재 등록된 필수 과목 리스트입니다. " + subjectTaken.size() + "과목이 등록되었습니다");
-                            System.out.println(subjectTaken);
-                        } else {
-                            System.out.println("잘못입력하였습니다.");
-                            break;
-                        }
+            if (3 <= subjectTaken.size() && subjectTaken.size() < 5) {
+
+                System.out.println("==================================");
+                System.out.println("필수 과목은 3개 이상만 수강하시면 됩니다.\n" +
+                        "필수 과목 수강을 종료하시겠습니까? (yes / no )");
+                String exit = sc.next();
+                while (true) {
+                    if (exit.equals("yes")) {
+                        System.out.println("선택 과목으로 이동합니다.");
+                        mandatory = false;
+                        break;
+                    } else if (exit.equals("no")) {
+                        System.out.println("현재 등록된 필수 과목 리스트입니다. " + subjectTaken.size() + "과목이 등록되었습니다");
+                        System.out.println("신청할 필수 과목 번호를 입력해주세요.");
+                        System.out.println(subjectTaken);
+                        break;
+                    } else {
+                        System.out.println("잘못입력하였습니다.");
                     }
                 }
             }
@@ -259,7 +257,7 @@ public class CampManagementApplication {
         //선택과목 수강 종료 입력 받기위한 변수
         boolean choice = true;
         //선택 과목 수강 신청
-        while (choice) {
+        while (choice && subjectTaken.size() < 9) {
             System.out.println("과목 코드 입력 : ");
             String subjectId = sc.next();
 
@@ -276,7 +274,7 @@ public class CampManagementApplication {
                     } else {
                         System.out.println(subject.getSubjectName() + " 과목은 이미 등록되었습니다.");
                     }
-                    if(isContain == false){
+                    if (isContain == false) {
                         System.out.println("잘못된 입력입니다.");
                     }
 
@@ -284,28 +282,27 @@ public class CampManagementApplication {
                     System.out.println(subjectTaken);
                     break;
                 }
+            }
 
-
-                if (5 <= subjectTaken.size() && subjectTaken.size() < 9) {
-                    System.out.println("==================================");
-                    System.out.println("선택 과목은 2개 이상만 수강하시면 됩니다.\n" +
-                            "선택 과목 수강을 종료하시겠습니까? (yes / no )");
-                    String exit = sc.next();
-                    while(true){
-                        if (exit.equals("no")) {
-                            System.out.println("선택 과목으로 이동합니다.");
-                            choice = false;
-                            break;
-                        }
-                        else if (exit.equals("yes")) {
-                            System.out.println("현재 등록된 선택 과목 리스트입니다. " + subjectTaken.size() + "과목이 등록되었습니다");
-                            System.out.println(subjectTaken);
-                        } else {
-                            System.out.println("잘못입력하였습니다.");
-                        }
+            if (5 <= subjectTaken.size() && subjectTaken.size() < 9) {
+                System.out.println("==================================");
+                System.out.println("선택 과목은 2개 이상만 수강하시면 됩니다.\n" +
+                        "선택 과목 수강을 종료하시겠습니까? (yes / no )");
+                String exit = sc.next();
+                while (true) {
+                    if (exit.equals("yes")) {
+                        System.out.println("현재 등록된 선택 과목 리스트입니다. " + subjectTaken.size() + "과목이 등록되었습니다");
+                        choice = false;
+                        break;
+                    } else if (exit.equals("yes")) {
+                        System.out.println("선택 과목으로 이동합니다.");
+                        System.out.println(subjectTaken);
+                    } else {
+                        System.out.println("잘못입력하였습니다.");
                     }
                 }
             }
+
         }
         System.out.println("***********************************");
         System.out.println("선택과목은 최대 4개까지 수강 가능합니다.\n" +
