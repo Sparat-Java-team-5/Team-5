@@ -175,7 +175,7 @@ public class CampManagementApplication {
         System.out.println("\n수강생을 등록합니다...");
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
-//----------
+
         Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성
 
         //수강신청된 과목 저장 배열
@@ -196,241 +196,119 @@ public class CampManagementApplication {
         while (mandatory) {
             System.out.println("과목 코드 입력 : ");
             String subjectId = sc.next();
-            //입력한 과목코드가 존재하는지 확인하는 boolean 변수
-            boolean isContanin = false;
-            //필수과목만 신청가능하도록 subjectStore에 subList()메서드로 범위 지정
-            for (Subject subject : subjectStore.subList(0, 5)) {
+
+            for (Subject subject : subjectStore) {
                 //과목 저장소에 있는 과목코드 이고, 수강한 과목과 중복되지 않는 과목코드만 수강 가능
-                if (subject.getSubjectId().equals(subjectId) && !subjectTaken.contains(subjectId)) {
+                if (subject.getSubjectId().equals(subjectId) && subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY)) {
                     if (!subjectTaken.contains(subjectId)) { //중복 등록 방지
                         subjectTaken.add(subjectId); //필수 과목 리스트에 추가
                         System.out.println(subject.getSubjectName() + " 등록이 완료되었습니다.");
                     } else {
-                        System.out.println("수강신청이완1~~~");
+                        System.out.println(subject.getSubjectName() + " 과목은 이미 등록되었습니다.");
                     }
-                    isContanin = true;
+
+                    //확인용 출력
                     System.out.println(subjectTaken);
                     break;
                 }
-                if (isContanin == false) {
-                    System.out.println("과목 코드를 잘못 입력하셨습니다.\n(※ 과목코드를 잘못 입력하셨거나, 이미 수강중인 과목은 신청할 수 없습니다.)");
-                }
+
                 if (3 <= subjectTaken.size() && subjectTaken.size() < 5) {
                     System.out.println("==================================");
                     System.out.println("필수 과목은 3개 이상만 수강하시면 됩니다.\n" +
-                            "필수 과목 수강을 종료하시겠습니까? (종료를 원하시면 exit 입력)");
-                    String exit1 = sc.next();
-                    if (exit1.equals("exit")) {
-                        mandatory = false;
+                            "필수 과목 수강을 종료하시겠습니까? (yes / no )");
+                    String exit = sc.next();
+                    while(true){
+                        if (exit.equals("no")) {
+                            System.out.println("필수 과목으로 이동합니다.");
+                            mandatory = false;
+                            break;
+                        }
+                        else if (exit.equals("yes")) {
+                            System.out.println("현재 등록된 필수 과목 리스트입니다. " + subjectTaken.size() + "과목이 등록되었습니다");
+                            System.out.println(subjectTaken);
+                        } else {
+                            System.out.println("잘못입력하였습니다.");
+                        }
                     }
                 }
             }
         }
-            System.out.println("***********************************");
-            System.out.println("필수과목은 최대 5개까지 수강 가능합니다.\n" +
-                    "이미 최대 수강신청 과목 수만큼 수강이 완료되셨습니다.\n" +
-                    "필수 과목 수강 신청을 종료 합니다.");
-            //======================================================================================================
-            System.out.println("============[ 선택과목 수강신청 ]============");
-            System.out.println("수강하실 선택과목 2개 이상 입력해 주세요!");
-            System.out.println("[과목 코드] 과목 명");
-            //필수과목코드와 과목 명 출력
-            for (Subject subject : subjectStore) {
-                if (subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)) {
-                    System.out.println("[" + subject.getSubjectId() + "] " + subject.getSubjectName());
-                }
+        System.out.println("***********************************");
+        System.out.println("필수과목은 최대 5개까지 수강 가능합니다.\n" +
+                "이미 최대 수강신청 과목 수만큼 수강이 완료되셨습니다.\n" +
+                "필수 과목 수강 신청을 종료 합니다.");
+        //======================================================================================================
+        System.out.println("============[ 선택과목 수강신청 ]============");
+        System.out.println("수강하실 선택과목 2개 이상 입력해 주세요!");
+        System.out.println("[과목 코드] 과목 명");
+        //필수과목코드와 과목 명 출력
+        for (Subject subject : subjectStore) {
+            if (subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)) {
+                System.out.println("[" + subject.getSubjectId() + "] " + subject.getSubjectName());
             }
+        }
 
-            //선택과목 수강 종료 입력 받기위한 변수
-            boolean choice = true;
-            //선택 과목 수강 신청
-            while (!choice) {
-                System.out.println("과목 코드 입력 : ");
-                String subjectId = sc.next();
-                //입력한 과목코드가 존재하는지 확인하는 boolean 변수
-                boolean isContanin = false;
-                //선택과목만 신청가능하도록 subjectStore에 subList()메서드로 범위 지정
-                for (Subject subject : subjectStore.subList(5, 9)) {
-                    //과목 저장소에 있는 과목코드 이고, 수강한 과목과 중복되지 않는 과목코드만 수강 가능
-                    if (subject.getSubjectId().equals(subjectId) && !subjectTaken.contains(subjectId)) {
-                        if (!subjectTaken.contains(subjectId)) { //중복 등록 방지
-                            subjectTaken.add(subjectId); // 선택 과목 리스트에 추가
-                            System.out.println(subject.getSubjectName() + " 등록이 완료되었습니다.");
-                        } else {
-                            System.out.println(subject.getSubjectName() + " 과목은 이미 등록되었습니다.");
-                        }
-                        isContanin = true;
-                        System.out.println(subjectTaken);
-                        break;
+        //선택과목 수강 종료 입력 받기위한 변수
+        boolean choice = true;
+        //선택 과목 수강 신청
+        while (choice) {
+            System.out.println("과목 코드 입력 : ");
+            String subjectId = sc.next();
+
+            for (Subject subject : subjectStore) {
+                //과목 저장소에 있는 과목코드 이고, 수강한 과목과 중복되지 않는 과목코드만 수강 가능
+                if (subject.getSubjectId().equals(subjectId) && subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)) {
+                    if (!subjectTaken.contains(subjectId)) { //중복 등록 방지
+                        subjectTaken.add(subjectId); //필수 과목 리스트에 추가
+                        System.out.println(subject.getSubjectName() + " 등록이 완료되었습니다.");
                     } else {
                         System.out.println(subject.getSubjectName() + " 과목은 이미 등록되었습니다.");
                     }
+
+                    //확인용 출력
+                    System.out.println(subjectTaken);
+                    break;
                 }
-                if (isContanin == false) {
-                    System.out.println("과목 코드를 잘못 입력하셨습니다.\n(※ 과목코드를 잘못 입력하셨거나, 이미 수강중인 과목은 신청할 수 없습니다.)");
-                }
+
                 if (5 <= subjectTaken.size() && subjectTaken.size() < 9) {
                     System.out.println("==================================");
-                    System.out.println("선택과목은 2개 이상만 수강하시면 됩니다.\n" +
-                            "선택 과목 수강을 종료하시겠습니까? (종료를 원하시면 exit 입력)");
-                    String choiceExit = sc.next();
-                    if (choiceExit.equals("exit")) {
-                        choice = false;
-                        break;
+                    System.out.println("선택 과목은 2개 이상만 수강하시면 됩니다.\n" +
+                            "선택 과목 수강을 종료하시겠습니까? (yes / no )");
+                    String exit = sc.next();
+                    while(true){
+                        if (exit.equals("no")) {
+                            System.out.println("선택 과목으로 이동합니다.");
+                            choice = false;
+                            break;
+                        }
+                        else if (exit.equals("yes")) {
+                            System.out.println("현재 등록된 선택 과목 리스트입니다. " + subjectTaken.size() + "과목이 등록되었습니다");
+                            System.out.println(subjectTaken);
+                        } else {
+                            System.out.println("잘못입력하였습니다.");
+                        }
                     }
                 }
-
             }
-            System.out.println("***********************************");
-            System.out.println("필수과목은 최대 4개까지 수강 가능합니다.\n" +
-                    "이미 최대 수강신청 과목 수만큼 수강이 완료되셨습니다.\n" +
-                    "선택 과목 수강 신청을 종료 합니다.");
+        }
+        System.out.println("***********************************");
+        System.out.println("선택과목은 최대 4개까지 수강 가능합니다.\n" +
+                "이미 최대 수강신청 과목 수만큼 수강이 완료되셨습니다.\n" +
+                "선택 과목 수강 신청을 종료 합니다.");
 
-            //(Key : 학생 고유 ID, Value : 학생이 수강한 과목 ArrayList) 형식으로 Map자료형에 추가
-            subjectTakenStore.put(student.getStudentId(), subjectTaken);
+        //(Key : 학생 고유 ID, Value : 학생이 수강한 과목 ArrayList) 형식으로 Map자료형에 추가
+        subjectTakenStore.put(student.getStudentId(), subjectTaken);
 
-            //확인용 출력
-            System.out.println("===== 수강생이 신청한 과목 확인 출력 =====");
-            for (Map.Entry<String, ArrayList> entrySet : subjectTakenStore.entrySet()) {
-                System.out.println("[ " + entrySet.getKey() + " : " + entrySet.getValue() + " ]");
-            }
+        //확인용 출력
+        System.out.println("===== 수강생이 신청한 과목 확인 출력 =====");
+        for (Map.Entry<String, ArrayList> entrySet : subjectTakenStore.entrySet()) {
+            System.out.println("[ " + entrySet.getKey() + " : " + entrySet.getValue() + " ]");
+        }
 
-            System.out.println("****** 수강생 등록 및 과목 등록 성공! *****\n");
+        System.out.println("****** 수강생 등록 및 과목 등록 성공! *****\n");
 
     }
 
-//=======
-
-            //새로운 학생 객체 생성 및 저장소에 추가
-//        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 학생 객체 생성
-//        studentStore.add(student); // 객체 저장소에 추가
-//
-//
-//        ArrayList<String> mandatoryTaken = new ArrayList<>(); //필수 과목 리스트 초기화
-//        ArrayList<String> choiceTaken = new ArrayList<>(); //선택 과목 리스트 초기화
-//
-//        System.out.println("필수 과목 목록");
-//        for (Subject subject : subjectStore) {
-//            if (subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY)) {
-//                System.out.println("과목명 : " + subject.getSubjectName() + " |과목 번호 : " + subject.getSubjectId() + " |타입 : " + subject.getSubjectType());
-//            }
-//        }
-//        //mandatorySubject 가 true이면 반복문 실행
-//        boolean mandatorySubject = true;
-//
-//        while (mandatorySubject) {
-//            System.out.println("\n================================================================");
-//            System.out.println("\n등록할 과목명을 입력하세요. :");
-//            String subjectName = sc.next();
-//
-//            boolean mandatoryTitle = false;
-//            for (Subject subject : subjectStore) {
-//                if (subject.getSubjectName().equals(subjectName) && subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY)) {
-//                    if (!mandatoryTaken.contains(subjectName)) { //중복 등록 방지
-//                        mandatoryTaken.add(subjectName); //필수 과목 리스트에 추가
-//                        System.out.println(subject.getSubjectName() + " 등록이 완료되었습니다.");
-//                    } else {
-//                        System.out.println(subject.getSubjectName() + " 과목은 이미 등록되었습니다.");
-//                    }
-//                    mandatoryTitle = true;
-//                    break;
-//                }
-//            }
-//
-//            if (!mandatoryTitle) {
-//                System.out.println(subjectName + "과목 번호가 잘못되었습니다.");
-//            }
-//
-//            //등록된 과목 출력
-//            System.out.println("등록된 필수 과목명");
-//            for (String subject : mandatoryTaken) {
-//                System.out.print("[" + subject + "]");
-//            }
-//
-//            //필수 과목 최소 조건
-//            if (mandatoryTaken.size() >= 3) {
-//                System.out.println("\n================================================================");
-//                System.out.println("\n필수 과목이 조건이 충족되었습니다.");
-//                while (true) { // while문 사용으로 잘못된 값 입력 시 과목 추가가 아닌 선택지로 이동
-//                    System.out.println("필수 과목을 더 선택하시겠습니까? (yes / no)");
-//                    String subjectTitle = sc.next();
-//                    if (subjectTitle.equals("no")) {
-//                        System.out.println("선택 과목으로 이동합니다.");
-//                        mandatorySubject = false;
-//                        break;
-//                    } else if (subjectTitle.equals("yes")) {
-//                        System.out.println("현재 등록된 필수 과목 리스트입니다. " + mandatoryTaken.size() + "과목이 등록되었습니다");
-//                        for (String subject : mandatoryTaken) {
-//                            System.out.print("[" + subject + "]");
-//                        }
-//                    } else{
-//                        System.out.println("잘못입력하였습니다.");
-//                    }
-//                }
-//            }
-//        }
-//
-//        boolean choiceSubject = true;
-//        for (Subject subject : subjectStore) {
-//            if (subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)) {
-//                System.out.println("과목명 : " + subject.getSubjectName() + " | 과목 번호 : " + subject.getSubjectId() + " |타입 : " + subject.getSubjectType());
-//            }
-//        }
-//        while (choiceSubject) {
-//            System.out.println("\n================================================================");
-//            System.out.println("등록할 과목명을 입력하세요. :");
-//            String subjectName = sc.next();
-//
-//            boolean choiceTitle = false;
-//            for (Subject subject : subjectStore) {
-//                if (subject.getSubjectName().equals(subjectName) && subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)) {
-//                    if (!choiceTaken.contains(subjectName)) { //중복 등록 방지
-//                        choiceTaken.add(subjectName); // 선택 과목 리스트에 추가
-//                        System.out.println(subject.getSubjectName() + " 등록이 완료되었습니다.");
-//                    } else {
-//                        System.out.println(subject.getSubjectName() + " 과목은 이미 등록되었습니다.");
-//                    }
-//                    choiceTitle = true;
-//                    break;
-//                }
-//            }
-//            if (!choiceTitle) {
-//                System.out.println(subjectName + "과목 번호가 잘못되었습니다.");
-//                continue;
-//            }
-//
-//            System.out.println("등록된 과목명");
-//            for (String subject : choiceTaken) {
-//                System.out.print("[" + subject + "]\n");
-//            }
-//
-//            if (choiceTaken.size() >= 2) {
-//                System.out.println("\n================================================================");
-//                System.out.println("\n선택 과목이 조건이 충족되었습니다.");
-//                while (true) {
-//                    System.out.println("선택 과목을 더 선택하시겠습니까?  (yes / exit)");
-//                    String subjectTitle = sc.next();
-//                    if (subjectTitle.equals("exit")) {
-//                        System.out.println("\n================================================================");
-//                        System.out.println("현재 등록된 전체 과목 리스트입니다. " + "\n필수 과목 : " + mandatoryTaken + "\n선택 과목 : " + choiceTaken + "\n과목이 등록되었습니다");
-//                        choiceSubject = false;
-//                        break;
-//                    } else if (subjectTitle.equals("yes")) {
-//                        break;
-//                    } else {
-//                        System.out.println("잘못입력하였습니다.");
-//                    }
-//                }
-//            }
-//        }
-//        //수강생 객체의 필수 / 선택과목 리스트 설정
-//        student.setMandatorySubject(mandatoryTaken);
-//        student.setChoiceSubject(choiceTaken);
-//
-//        System.out.println("\n================================================================");
-//        System.out.println("수강생 등록 성공!\n");
-////>>>>>>> release1-1
-//    }
 
     // 수강생 목록 조회
     private static void inquireStudent() {
@@ -443,8 +321,6 @@ public class CampManagementApplication {
             for (Student student : studentStore) { //for each 문으로 출력
                 System.out.println("학생 이름 : " + student.getStudentName());
                 System.out.println("학생 ID : " + student.getStudentId());
-                System.out.println("필수 과목 : " + student.getMandatorySubject());
-                System.out.println("선택 과목 : " + student.getChoiceSubject());
                 System.out.println("================================================================");
             }
         }
