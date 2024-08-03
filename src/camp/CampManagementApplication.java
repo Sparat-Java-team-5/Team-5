@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
+
 /**
  * Notification
  * Java, 객체지향이 아직 익숙하지 않은 분들은 위한 소스코드 틀입니다.
@@ -77,7 +79,7 @@ public class CampManagementApplication {
                 ),
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
-                        "디자인 패턴",
+                        "디자인_패턴",
                         SUBJECT_TYPE_CHOICE
                 ),
                 new Subject(
@@ -192,7 +194,6 @@ public class CampManagementApplication {
             System.out.println("\n================================================================");
             System.out.println("\n등록할 과목명을 입력하세요. :");
             String subjectName = sc.next();
-
 
             boolean mandatoryTitle = false;
             for (Subject subject : subjectStore) {
