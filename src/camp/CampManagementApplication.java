@@ -7,6 +7,8 @@ import camp.model.Subject;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Stream;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
 /**
@@ -364,6 +366,20 @@ public class CampManagementApplication {
         }
     }
 
+    //--------------------------------
+//    private static String getStudentId() {
+//        System.out.print("\n관리할 수강생의 번호를 입력하시오...");
+//        return sc.next();
+//    }
+//
+//    // 수강생의 과목별 시험 회차 및 점수 등록
+//    private static void createScore() {
+//        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+//        System.out.println("시험 점수를 등록합니다...");
+//        // 기능 구현
+//        System.out.println("\n점수 등록 성공!");
+//    }
+//---------------------------------------------
     private static String getStudentId() {
         System.out.print("\n관리할 수강생의 번호를 입력하시오...");
         String studentId = sc.next();
@@ -379,59 +395,86 @@ public class CampManagementApplication {
         return null;
     }
 
+    private static String getSubjectId(String studentId) {
+        System.out.println(studentId + "이 수강한 과목");
+        ArrayList<String> subjects = subjectTakenStore.get(studentId);
+        System.out.println(subjects);
+        System.out.println("수강한 과목 중 점수를 등록할 과목명을 입력해 주세요 : ");
+        String subjectName = sc.next();
+        for (Subject subject : subjectStore) {
+            if (subject.getSubjectName().equals(subjectName)) {
+                //과목 고유 ID리턴
+                return subject.getSubjectId();
+            }
+        }
+        System.out.println("해당 과목을 수강하지 않았습니다.");
+        return null;
+    }
+
     private static void createScore() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         if (studentId == null) {
             return; // 수강생이 없거나 잘못된 ID인 경우 메서드 종료
         }
-        System.out.println("시험 점수를 등록합니다...");
-        // 수강생의 과목 정보를 가져옴
-        ArrayList<String> subjects = subjectTakenStore.get(studentId);
+        System.out.println("======== [[" + studentId +
+                "]] 시험 점수를 등록합니다 =========");
 
-        if (subjects == null || subjects.isEmpty()) {
-            System.out.println("해당 학생이 수강한 과목이 없습니다.");
-            return;
+        // 수강생의 과목 정보를 가져옴 & 점수 등록할 과목 ID 가져옴
+        String subjectId = getSubjectId(studentId);
+        System.out.println(subjectId);
+        Score scoreObject = new Score(sequence(INDEX_TYPE_SCORE), studentId, subjectId);
+        for (int j=0;j<1;j++) {
+
+            System.out.println(scoreObject.getScoreId());
+            System.out.println("=========점수를 등록합니다=========");
+            Map<Integer, Integer> roundScore = new HashMap<>();
+            for (int i = 0; i < 10; i++) {
+                System.out.println(i + 1 + " 회차 점수를 입력해 주세요 : ");
+                int scoreInput = sc.nextInt();
+                roundScore.put(i + 1, scoreInput);
+            }
+            scoreObject.setRoundScore(roundScore);
+
+            scoreStore.add(scoreObject);
+            System.out.println(scoreObject.getRoundScore().keySet());
+            System.out.println(scoreObject.getRoundScore().values());
+
+            for(Score score : scoreStore){
+                System.out.println(score.getScoreId());
+                System.out.println(score.getStudentId());
+                System.out.println(score.getSubjectId());
+                System.out.println(score.getRoundScore());
+            }
+//            if (!score.getSubjectId().equals(subjectId)) {
+//                Score scoreObject = new Score(sequence(INDEX_TYPE_SCORE), studentId, subjectId);
+//                System.out.println("=========점수를 등록합니다=========");
+//                Map<Integer, Integer> roundScore = new HashMap<>();
+//                for (int i = 0; i < 10; i++) {
+//                    System.out.println(i + 1 + " 회차 점수를 입력해 주세요 : ");
+//                    int scoreInput = sc.nextInt();
+//                    roundScore.put(i + 1, scoreInput);
+//                }
+//                score.setRoundScore(roundScore);
+//
+//                scoreStore.add(scoreObject);
+//                System.out.println(scoreObject.getRoundScore().keySet());
+//                System.out.println(scoreObject.getRoundScore().values());
+//            }
+//            if (score.getSubjectId().equals(subjectId)) {
+//                System.out.println("이미 해당 과목 점수가 존재합니다.");
+//                if (score.getRoundScore().isEmpty()) {
+//                    System.out.println("점수 비어있음 : " + score.getRoundScore());
+//                } else {
+//                    System.out.println("점수 있음 : " + score.getRoundScore());
+//                }
+//                break;
+//            }
         }
 
-        // 학생의 점수 정보를 저장할 Map 생성
-        Map<Integer, List<Integer>> scoreMap = new HashMap<>();
 
-        for (String subject : subjects) {
-            System.out.println("과목: " + subject); // 과목명 출력
-
-            // 해당 과목의 점수 리스트를 가져오거나 새로 생성
-            List<Integer> scores = scoreMap.getOrDefault(subject, new ArrayList<>());
-
-
-            // 회차 자동 부여 (1부터 시작, 최대 10회차)
-            int round = scores.size()+1;
-            System.out.println(round+"회차");
-
-            System.out.println("점수를 입력해주세요.");
-            int score = sc.nextInt();
-            scores.add(score); // 점수를 리스트에 추가
-
-            // 과목별 점수 리스트를 scoreMap에 저장
-            scoreMap.put(round, scores);
-            System.out.println("등록된 점수: " + scores); // 등록된 점수 리스트 출력
-        }
-
-        // 해당 수강생의 점수 정보를 scoreStore에 저장
-        scoreStore.add(new Score(studentId, scoreMap));
-
-        System.out.println("===== 수강생의 과목별 점수 확인 출력 =====");
-        for (Map.Entry<Integer, List<Integer>> entrySet : scoreMap.entrySet()) {
-            System.out.println("[" + entrySet.getKey() + " : " + entrySet.getValue() + "]");
-        }
 
         System.out.println("\n점수 등록 성공!");
     }
-
-
-
-
-
-
 
 
     // 수강생의 과목별 회차 점수 수정
