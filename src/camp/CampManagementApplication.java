@@ -384,25 +384,18 @@ public class CampManagementApplication {
         if (studentId == null) {
             return; // 수강생이 없거나 잘못된 ID인 경우 메서드 종료
         }
+
         System.out.println("시험 점수를 등록합니다...");
         // 수강생의 과목 정보를 가져옴
         ArrayList<String> subjects = subjectTakenStore.get(studentId);
-
-        if (subjects == null || subjects.isEmpty()) {
-            System.out.println("해당 학생이 수강한 과목이 없습니다.");
-            return;
-        }
-
-        // 학생의 점수 정보를 저장할 Map 생성
+               // 학생의 점수 정보를 저장할 Map 생성
         Map<Integer, List<Integer>> scoreMap = new HashMap<>();
+        int index = 1;
 
         for (String subject : subjects) {
             System.out.println("과목: " + subject); // 과목명 출력
-
             // 해당 과목의 점수 리스트를 가져오거나 새로 생성
             List<Integer> scores = scoreMap.getOrDefault(subject, new ArrayList<>());
-
-
             // 회차 자동 부여 (1부터 시작, 최대 10회차)
             int round = scores.size()+1;
             System.out.println(round+"회차");
@@ -411,17 +404,23 @@ public class CampManagementApplication {
             int score = sc.nextInt();
             scores.add(score); // 점수를 리스트에 추가
 
-            // 과목별 점수 리스트를 scoreMap에 저장
-            scoreMap.put(round, scores);
-            System.out.println("등록된 점수: " + scores); // 등록된 점수 리스트 출력
+            // 등록된 점수 리스트 출력
+            scoreMap.put(index, scores);
+            index++;
         }
-
         // 해당 수강생의 점수 정보를 scoreStore에 저장
         scoreStore.add(new Score(studentId, scoreMap));
 
+
         System.out.println("===== 수강생의 과목별 점수 확인 출력 =====");
         for (Map.Entry<Integer, List<Integer>> entrySet : scoreMap.entrySet()) {
-            System.out.println("[" + entrySet.getKey() + " : " + entrySet.getValue() + "]");
+            int subjectIndex = entrySet.getKey();
+            List<Integer> scores = entrySet.getValue(); // 해당 과목 점수 리스트
+            String subject = subjects.get(subjectIndex -1); // 과목 index에 해당하는 과목
+            for(int i = 0; i < scores.size(); i++) {
+                int round = i +1;
+                System.out.println("[" + round + " : " + subject + " : " + scores.get(i) + "]");
+            }
         }
 
         System.out.println("\n점수 등록 성공!");
@@ -439,18 +438,25 @@ public class CampManagementApplication {
         System.out.print("\n관리할 수강생의 번호를 입력하시오...");
         String studentId = sc.next();
         if (studentStore.isEmpty()) {
-
+            System.out.println("등록된 수강생이 없습니다.");
         }
         for (Student student : studentStore) {
             if (student.getStudentId().equals(studentId)) {
-
+                System.out.println("확인되었습니다.");
+                break;
+            } else {
+                System.out.println("해당 ID를 가지고 있는 수강생이 없습니다.");
             }
-        }
-        System.out.println("해당 ID를 가지고 있는 수강생이 없습니다.");
 
-        System.out.println("시험 점수를 수정합니다...");
+            System.out.println("시험 점수를 수정합니다...");
+
+            System.out.println("\n점수 수정 성공!");
+        }
+
+
+
         //
-        System.out.println("\n점수 수정 성공!");
+
     }
 
     // 수강생의 특정 과목 회차별 등급 조회
