@@ -324,7 +324,9 @@ public class CampManagementApplication {
             System.out.println("[ " + entrySet.getKey() + " : " + entrySet.getValue() + " ]");
         }
 
+        //성공
         System.out.println("****** 수강생 등록 및 과목 등록 성공! *****\n");
+
 
     }
 
