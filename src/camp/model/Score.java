@@ -9,7 +9,7 @@ public class Score {
     private String scoreId;
     private String studentId;
     private String subjectId;
-
+    //commit test
     //과목 회차
     //과목 점수
     //MAP (key : 회차, value : 점수)
