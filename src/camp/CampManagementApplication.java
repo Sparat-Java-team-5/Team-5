@@ -182,7 +182,7 @@ public class CampManagementApplication {
         // 수강생 인스턴스 생성
 
         //수강신청된 과목 저장 배열
-        ArrayList<String> subjectTaken = new ArrayList<>();
+        ArrayList<String> mandatorySubjectTaken = new ArrayList<>();
 
         System.out.println("============[ 필수과목 수강신청 ]============");
         System.out.println("===[수강하실 필수과목 3개 이상 입력해 주세요!]===");
@@ -196,7 +196,7 @@ public class CampManagementApplication {
         //필수과목 수강 종료 입력 받기위한 변수
         boolean mandatory = true;
         //필수 과목 수강 신청
-        while (mandatory && subjectTaken.size() < 5) {
+        while (mandatory && mandatorySubjectTaken.size() < 5) {
             System.out.println("[과목 코드 입력] : ");
             String subjectId = sc.next();
 
@@ -206,10 +206,10 @@ public class CampManagementApplication {
             for (Subject subject : subjectStore) {
                 //과목 저장소에 있는 과목코드 이고, 수강한 과목과 중복되지 않는 과목코드만 수강 가능
                 if (subject.getSubjectId().equals(subjectId) && subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY)) {
-                    if (!subjectTaken.contains(subjectId)) { //중복 등록 방지
-                        subjectTaken.add(subjectId); //필수 과목 리스트에 추가
+                    if (!mandatorySubjectTaken.contains(subjectId)) { //중복 등록 방지
+                        mandatorySubjectTaken.add(subjectId); //필수 과목 리스트에 추가
                         System.out.println(subject.getSubjectName() + " 등록이 완료되었습니다.");
-                        System.out.println(subjectTaken);
+                        System.out.println(mandatorySubjectTaken);
                         isContain = true;
                     } else {
                         System.out.println(subject.getSubjectName() + " 과목은 이미 등록되었습니다.");
@@ -220,7 +220,9 @@ public class CampManagementApplication {
                 System.out.println("[잘못된 입력입니다.]");
             }
 
-            if (3 <= subjectTaken.size() && subjectTaken.size() < 5) {
+
+
+            if (3 <= mandatorySubjectTaken.size() && mandatorySubjectTaken.size() < 5) {
 
                 while (true) {
                     System.out.println("[==================================]");
@@ -232,9 +234,10 @@ public class CampManagementApplication {
                         mandatory = false;
                         break;
                     } else if (exit.equals("no")) {
-                        System.out.println("===[현재 등록된 필수 과목 리스트입니다. " + subjectTaken.size() + "과목이 등록되었습니다]===");
+                        System.out.println("===[현재 등록된 필수 과목 리스트입니다. " + mandatorySubjectTaken.size() + "과목이 등록되었습니다]===");
                         System.out.println("====[신청할 필수 과목 번호를 입력해주세요.]====");
-                        System.out.println(subjectTaken);
+                        System.out.println(mandatorySubjectTaken);
+                        break;
                     } else {
                         System.out.println("[잘못입력하였습니다.]");
                     }
@@ -256,10 +259,11 @@ public class CampManagementApplication {
             }
         }
 
+        ArrayList<String> choiceSubjectTaken = new ArrayList<>();
         //선택과목 수강 종료 입력 받기위한 변수
         boolean choice = true;
         //선택 과목 수강 신청
-        while (choice && subjectTaken.size() < 9) {
+        while (choice && choiceSubjectTaken.size() < 4) {
             System.out.println("[과목 코드 입력] : ");
             String subjectId = sc.next();
 
@@ -269,10 +273,10 @@ public class CampManagementApplication {
             for (Subject subject : subjectStore) {
                 //과목 저장소에 있는 과목코드 이고, 수강한 과목과 중복되지 않는 과목코드만 수강 가능
                 if (subject.getSubjectId().equals(subjectId) && subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)) {
-                    if (!subjectTaken.contains(subjectId)) { //중복 등록 방지
-                        subjectTaken.add(subjectId); //필수 과목 리스트에 추가
+                    if (!choiceSubjectTaken.contains(subjectId)) { //중복 등록 방지
+                        choiceSubjectTaken.add(subjectId); //필수 과목 리스트에 추가
                         System.out.println(subject.getSubjectName() + " 등록이 완료되었습니다.");
-                        System.out.println(subjectTaken);
+                        System.out.println(choiceSubjectTaken);
                         isContain = true;
                     } else {
                         System.out.println(subject.getSubjectName() + " 과목은 이미 등록되었습니다.");
@@ -283,8 +287,7 @@ public class CampManagementApplication {
                 }
             }
 
-            if (5 <= subjectTaken.size() && subjectTaken.size() < 9) {
-
+            if (2<=choiceSubjectTaken.size() && choiceSubjectTaken.size() < 4) {
 
                 while (true) {
                     System.out.println("==================================");
@@ -292,12 +295,13 @@ public class CampManagementApplication {
                             "===[선택 과목 수강을 종료하시겠습니까? (yes / no )]===");
                     String exit = sc.next();
                     if (exit.equals("yes")) {
-                        System.out.println("===[현재 등록된 선택 과목 리스트입니다. " + subjectTaken.size() + "과목이 등록되었습니다]===");
+                        System.out.println("===[현재 등록된 선택 과목 리스트입니다. " + choiceSubjectTaken.size() + "과목이 등록되었습니다]===");
                         choice = false;
                         break;
                     } else if (exit.equals("no")) {
                         System.out.println("===[선택 과목으로 이동합니다.]===");
-                        System.out.println(subjectTaken);
+                        System.out.println(choiceSubjectTaken);
+                        break;
                     } else {
                         System.out.println("===[잘못입력하였습니다.]===");
                     }
@@ -310,8 +314,9 @@ public class CampManagementApplication {
                 "이미 최대 수강신청 과목 수만큼 수강이 완료되셨습니다.\n" +
                 "선택 과목 수강 신청을 종료 합니다.\n");
 
+        mandatorySubjectTaken.addAll(choiceSubjectTaken);
         //(Key : 학생 고유 ID, Value : 학생이 수강한 과목 ArrayList) 형식으로 Map자료형에 추가
-        subjectTakenStore.put(student.getStudentId(), subjectTaken);
+        subjectTakenStore.put(student.getStudentId(), mandatorySubjectTaken);
 
         //확인용 출력
         System.out.println("===== 수강생이 신청한 과목 확인 출력 =====");
@@ -319,7 +324,9 @@ public class CampManagementApplication {
             System.out.println("[ " + entrySet.getKey() + " : " + entrySet.getValue() + " ]");
         }
 
+        //성공
         System.out.println("****** 수강생 등록 및 과목 등록 성공! *****\n");
+
 
     }
 
@@ -411,6 +418,7 @@ public class CampManagementApplication {
         return null;
     }
 
+    //Score 구조 변경 예정
     private static void createScore() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         if (studentId == null) {
