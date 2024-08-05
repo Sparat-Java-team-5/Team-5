@@ -422,7 +422,6 @@ public class CampManagementApplication {
         }
     }
 
-
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
         System.out.print("\n관리할 수강생의 번호를 입력하시오...");
@@ -437,15 +436,10 @@ public class CampManagementApplication {
             } else {
                 System.out.println("해당 ID를 가지고 있는 수강생이 없습니다.");
             }
-
             System.out.println("시험 점수를 수정합니다...");
 
             System.out.println("\n점수 수정 성공!");
         }
-
-
-        //
-
     }
 
     // 수강생의 특정 과목 회차별 등급 조회
