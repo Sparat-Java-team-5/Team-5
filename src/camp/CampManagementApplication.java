@@ -416,6 +416,7 @@ public class CampManagementApplication {
         if (studentId == null) {
             return; // 수강생이 없거나 잘못된 ID인 경우 메서드 종료
         }
+
         System.out.println("======== [[" + studentId +
                 "]] 시험 점수를 등록합니다 =========");
 
@@ -435,9 +436,11 @@ public class CampManagementApplication {
             }
             scoreObject.setRoundScore(roundScore);
 
+
             scoreStore.add(scoreObject);
             System.out.println(scoreObject.getRoundScore().keySet());
             System.out.println(scoreObject.getRoundScore().values());
+
 
             for(Score score : scoreStore){
                 System.out.println(score.getScoreId());
@@ -482,18 +485,25 @@ public class CampManagementApplication {
         System.out.print("\n관리할 수강생의 번호를 입력하시오...");
         String studentId = sc.next();
         if (studentStore.isEmpty()) {
-
+            System.out.println("등록된 수강생이 없습니다.");
         }
         for (Student student : studentStore) {
             if (student.getStudentId().equals(studentId)) {
-
+                System.out.println("확인되었습니다.");
+                break;
+            } else {
+                System.out.println("해당 ID를 가지고 있는 수강생이 없습니다.");
             }
-        }
-        System.out.println("해당 ID를 가지고 있는 수강생이 없습니다.");
 
-        System.out.println("시험 점수를 수정합니다...");
+            System.out.println("시험 점수를 수정합니다...");
+
+            System.out.println("\n점수 수정 성공!");
+        }
+
+
+
         //
-        System.out.println("\n점수 수정 성공!");
+
     }
 
     // 수강생의 특정 과목 회차별 등급 조회
