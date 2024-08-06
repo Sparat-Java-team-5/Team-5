@@ -12,7 +12,6 @@ public class CampManagementApplication {
     private static List<Subject> subjectStore;
     private static List<Score> scoreStore;
     private static Map<String, ArrayList> subjectTakenStore;
-    //private static Map<String, Map<String, List<Integer>>> scoreMap = new HashMap<>();
 
     //Getter
     public List<Subject> getSubjectStore(){
