@@ -1,4 +1,4 @@
-package camp;
+package camp.view;
 
 import camp.model.Score;
 import camp.model.Student;

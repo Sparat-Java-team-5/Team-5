@@ -1,11 +1,8 @@
 package camp.model;
 
-import camp.CampManagementApplication;
+import camp.view.CampManagementApplication;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class Score {
