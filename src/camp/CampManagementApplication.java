@@ -14,6 +14,10 @@ public class CampManagementApplication {
     private static Map<String, ArrayList> subjectTakenStore;
     //private static Map<String, Map<String, List<Integer>>> scoreMap = new HashMap<>();
 
+    //Getter
+    public List<Subject> getSubjectStore(){
+        return subjectStore;
+    }
 
     // 과목 타입
     private static final String SUBJECT_TYPE_MANDATORY = "MANDATORY";
@@ -509,19 +513,25 @@ public class CampManagementApplication {
         }
         System.out.println("회차별 등급을 조회합니다...");
         for (Score score : scores) {
-            System.out.println("회차: " + score.getRound() + ", 점수: " + score.getScore()+", 등급 : "+score.getGrade());
+            System.out.println("회차: " + score.getRound() + ", 점수: " + score.getScore()+", 등급 : "+score.getGrade(score.getSubjectId()));
 
         }
         System.out.println("\n등급 조회 성공!");
     }
-
-    private static List<Score> findScoresByStudentAndSubject(String studentId, String subjectId) {
-        List<Score> scores = new ArrayList<>();
-        for (Score score : scoreStore) {
-            if (score.getStudentId().equals(studentId) && score.getSubjectId().equals(subjectId)) {
-                scores.add(score);
-            }
-        }
-        return scores;
+    private static List<Score> findScoresByStudentAndSubject(String studentId, String subjectId) {//수강생이랑 과목으로 점수 찾는 메소드
+        return scoreStore.stream()
+                .filter(score -> score.getStudentId().equals(studentId) &&
+                        score.getSubjectId().equals(subjectId))//특정 수강생, 특정 과목만 남긴다.
+                .toList();
     }
+
+//    private static List<Score> findScoresByStudentAndSubject(String studentId, String subjectId) {
+//        List<Score> scores = new ArrayList<>();
+//        for (Score score : scoreStore) {
+//            if (score.getStudentId().equals(studentId) && score.getSubjectId().equals(subjectId)) {
+//                scores.add(score);
+//            }
+//        }
+//        return scores;
+//    }
 }
