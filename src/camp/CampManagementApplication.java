@@ -385,9 +385,7 @@ public class CampManagementApplication {
         ArrayList<String> subjects = subjectTakenStore.get(studentId);
         System.out.println("확인용 출력 : "+subjects);
 
-        //  subject 입력받고 subject헬퍼 매서드 호출해 해당 과목 찾고 없으면 오류메시지
-
-
+        //수강한 과목수 만큼 돌면서 모든 과목 점수 입력받도록
         boolean againSc = true;
         while (againSc) {
             for (int i = 0; i < subjects.size(); i++) {
@@ -400,23 +398,28 @@ public class CampManagementApplication {
                 System.out.println("과목을 찾을 수 없습니다.");
                 return;
             }
-
             String selectedSubjectId = subject.getSubjectId();
-            System.out.println("[선택한 과목입니다] : " + selectedSubjectId);
+            System.out.println("[선택한 과목 고유코드 입니다] : " + selectedSubjectId);
 
 
-            List<Integer> scores = studentScores.getOrDefault(selectedSubjectId, new ArrayList<>());
-
-            int round = scores.size() + 1;
-            System.out.println("["+round + "회차 점수를 입력해주세요.]");
-
-            int score = sc.nextInt();
-            scores.add(score); // 점수를 리스트에 추가
-
-            studentScores.put(selectedSubject, scores);
-            scoreMap.put(subjectId, studentScores);
+            System.out.println("=========점수를 등록합니다=========");
+            for (int i = 0; i < 10; i++) {
+                System.out.println(i + 1 + " 회차 점수를 입력해 주세요 : ");
+                int scoreInput = sc.nextInt();
+                Score scoreObject = new Score(sequence(INDEX_TYPE_SCORE), studentId, selectedSubjectId, i+1, scoreInput);
+                scoreStore.add(scoreObject);
+            }
 
             System.out.println("\n===[점수 등록 성공!]===");
+
+            for(Score score : scoreStore){
+                System.out.println(score.getScoreId());
+                System.out.println(score.getStudentId());
+                System.out.println(score.getSubjectId());
+                System.out.println(score.getRound());
+                System.out.println(score.getScore());
+            }
+
             System.out.println("===[다른 과목 점수를 등록하시겠습니까? (yes / no)]===");
             String againScore = sc.next();
             if (!againScore.equals("yes")) {
@@ -425,35 +428,35 @@ public class CampManagementApplication {
         }
 
         //--------------------------------------------------------------------
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        if (studentId == null) {
-            return; // 수강생이 없거나 잘못된 ID인 경우 메서드 종료
-        }
-        System.out.println("======== [[" + studentId +
-                "]] 시험 점수를 등록합니다 =========");
-        // 수강생의 과목 정보를 가져옴 & 점수 등록할 과목 ID 가져옴
-        String subjectId = getSubjectId(studentId);
-        System.out.println(subjectId);
-        Score scoreObject = new Score(sequence(INDEX_TYPE_SCORE), studentId, subjectId);
-        for (int j=0;j<1;j++) {
-            System.out.println(scoreObject.getScoreId());
-            System.out.println("=========점수를 등록합니다=========");
-            Map<Integer, Integer> roundScore = new HashMap<>();
-            for (int i = 0; i < 10; i++) {
-                System.out.println(i + 1 + " 회차 점수를 입력해 주세요 : ");
-                int scoreInput = sc.nextInt();
-                roundScore.put(i + 1, scoreInput);
-            }
-            scoreObject.setRoundScore(roundScore);
-            scoreStore.add(scoreObject);
-            System.out.println(scoreObject.getRoundScore().keySet());
-            System.out.println(scoreObject.getRoundScore().values());
-            for(Score score : scoreStore){
-                System.out.println(score.getScoreId());
-                System.out.println(score.getStudentId());
-                System.out.println(score.getSubjectId());
-                System.out.println(score.getRoundScore());
-            }
+//        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+//        if (studentId == null) {
+//            return; // 수강생이 없거나 잘못된 ID인 경우 메서드 종료
+//        }
+//        System.out.println("======== [[" + studentId +
+//                "]] 시험 점수를 등록합니다 =========");
+//        // 수강생의 과목 정보를 가져옴 & 점수 등록할 과목 ID 가져옴
+//        String subjectId = getSubjectId(studentId);
+//        System.out.println(subjectId);
+//        Score scoreObject = new Score(sequence(INDEX_TYPE_SCORE), studentId, subjectId);
+//        for (int j=0;j<1;j++) {
+//            System.out.println(scoreObject.getScoreId());
+//            System.out.println("=========점수를 등록합니다=========");
+//            Map<Integer, Integer> roundScore = new HashMap<>();
+//            for (int i = 0; i < 10; i++) {
+//                System.out.println(i + 1 + " 회차 점수를 입력해 주세요 : ");
+//                int scoreInput = sc.nextInt();
+//                roundScore.put(i + 1, scoreInput);
+//            }
+//            scoreObject.setRoundScore(roundScore);
+//            scoreStore.add(scoreObject);
+//            System.out.println(scoreObject.getRoundScore().keySet());
+//            System.out.println(scoreObject.getRoundScore().values());
+//            for(Score score : scoreStore){
+//                System.out.println(score.getScoreId());
+//                System.out.println(score.getStudentId());
+//                System.out.println(score.getSubjectId());
+//                System.out.println(score.getRoundScore());
+//            }
             //--------------------------------------------------------------------
 
 //        boolean againSc = true;

@@ -15,12 +15,11 @@ public class Score {
     private int score;
 
 
-
-    public Score(String seq, String studentId, String subjectId, String scoreId, Student student, Subject subject, int round, int score) {
+//Student student, Subject subject,
+    public Score(String seq, String studentId, String subjectId, int round, int score) {
         this.scoreId = seq;
         this.studentId = studentId;
         this.subjectId = subjectId;
-        this.scoreId=scoreId;//
         this.student=student;//
         this.subject=subject;//
         this.round=round;//
@@ -28,6 +27,10 @@ public class Score {
     }
 
     // Getter
+    public String getScoreId(){
+        return scoreId;
+    }
+
     public String getStudentId() {
         return studentId;
     }
