@@ -434,31 +434,73 @@ public class CampManagementApplication {
         }
     }
 
-    // 수강생의 과목별 회차 점수 수정
-    private static void updateRoundScoreBySubject() {
-        System.out.print("\n관리할 수강생의 번호를 입력하시오...");
-        String studentId = sc.next();
-        if (studentStore.isEmpty()) {
-            System.out.println("등록된 수강생이 없습니다.");
-        }
-        for (Student student : studentStore) {
-            if (student.getStudentId().equals(studentId)) {
-                System.out.println("확인되었습니다.");
-                break;
-            } else {
-                System.out.println("해당 ID를 가지고 있는 수강생이 없습니다.");
-            }
-
-            System.out.println("시험 점수를 수정합니다...");
-
-            System.out.println("\n점수 수정 성공!");
-        }
-
-
-
-        //
+    //3. 헬퍼메서드 -> 기능구현에 활용할 함수
+    private static Student findStudentById(String studentId){ //ID로학생찾는매서드
+        return studentStore.stream() //stream : 컬렉션의 데이터를 하나씩 처리하는 도구
+                .filter(student -> student.getStudentId().equals(studentId))//getstudentId==studentId인지 비교
+                .findFirst() //걸러진 스트림에서 first요소를 find하는 것. (따라서 조건에 맞는 첫 번째 학생 객체를 반환)
+                .orElse(null); //조건에 맞는 학생 객체 없으면 null
+    }
+    private static Subject findSubjectByName(String subjectName){//과목명으로 과목 찾는 메서드
+        return subjectStore.stream()
+                .filter(subject -> subject.getSubjectName().equals(subjectName))
+                .findFirst()
+                .orElse(null);
 
     }
+    private static Score findScore(Student student, Subject subject, int round) {//수강생,과목,회차로 점수 찾는 매소드
+        return scoreStore.stream()
+                .filter(score -> score.getStudent().getStudentId().equals(student.getStudentId()) &&
+                        score.getSubject().getSubjectId().equals(subject.getSubjectId()) &&
+                        score.getRound() == round)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private static List<Score> findScoresByStudentAndSubject(Student student, Subject subject) {//수강생이랑 과목으로 점수 찾는 메소드
+        return scoreStore.stream()
+                .filter(score -> score.getStudent().getStudentId().equals(student.getStudentId()) &&
+                        score.getSubject().getSubjectId().equals(subject.getSubjectId()))//특정 수강생, 특정 과목만 남긴다.
+                .toList();
+    }
+
+    // 수강생의 과목별 회차 점수 수정 -> 기능구현시작
+    private static void updateRoundScoreBySubject() {
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호(ID)입력받기
+        // 3. ID 입력받고 ID헬퍼메서드 호출해서 ID추적. 없으면 오류(ID값 == null)
+        Student student = findStudentById(studentId);
+        if (student == null) {
+            System.out.println("수강생을 찾을 수 없습니다.");
+            return;
+        }
+//  subject 입력받고 subject헬퍼 매서드 호출해 해당 과목 찾고 없으면 오류메시지
+        System.out.println("수정할 과목명을 입력해주세요 : ");
+        String subjectName = sc.next();
+        Subject subject = findSubjectByName(subjectName);
+        if (subject == null) {
+            System.out.println("과목을 찾을 수 없습니다.");
+            return;
+        }
+// 수정할 회차와 점수 입력받고 score헬퍼 호풀해 특정과목회차점수 찾기
+        System.out.println("수정할 회차를 입력하세요 : ");
+        int round = sc.nextInt();
+        System.out.println("수정할 점수를 입력하세요 : ");
+        int scoreValue = sc.nextInt();
+        Score score = findScore(student, subject, round);
+// 점수있으면 수정하고 성공메시지 출력,없으면 오류메시지 출력
+        if (score != null) {
+            score.setScore(scoreValue);
+            System.out.println("시험 점수 수정 성공");
+        } else {
+            System.out.println("해당 회차의 점수를 찾을 수 없습니다.");
+        }
+
+    }
+
+
+
+
+
 
     // 수강생의 특정 과목 회차별 등급 조회
     private static void inquireRoundGradeBySubject() {
