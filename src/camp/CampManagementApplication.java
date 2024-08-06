@@ -487,10 +487,18 @@ public class CampManagementApplication {
 
         //수정할 회차와 점수 입력받고 score헬퍼 호출 해 특정과목회차점수 찾기
         //입력 받을 수 있는 회차는 1 ~ 10 사이 수
-//        int round;
+        int round =0;
+        while(true){
+            System.out.println("수정할 회차를 입력하세요 : ");
+            round = sc.nextInt();
+            if(1<=round && round <=10){
+                break;
+            }
+            else{
+                System.out.println("회차는 1 ~ 10 사이의 숫자여야 합니다.");
+            }
+        }
 
-        System.out.println("수정할 회차를 입력하세요 : ");
-        int round = sc.nextInt();
 
         System.out.println("수정할 점수를 입력하세요 : ");
         int scoreValue = sc.nextInt();
