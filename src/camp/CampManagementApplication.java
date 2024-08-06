@@ -499,9 +499,19 @@ public class CampManagementApplication {
             }
         }
 
+        // 점수 입력 범위 0 ~ 100으로 제한
+        int scoreValue = 0;
+        while(true){
+            System.out.println("수정할 점수를 입력하세요 : ");
+            scoreValue = sc.nextInt();
+            if(0<=scoreValue && scoreValue <=100){
+                break;
+            }
+            else{
+                System.out.println("시험 점수는 0 ~ 100 사이의 숫자여야 합니다.");
+            }
+        }
 
-        System.out.println("수정할 점수를 입력하세요 : ");
-        int scoreValue = sc.nextInt();
         Score score = findScore(student, subject, round);
         // 점수있으면 수정하고 성공메시지 출력,없으면 오류메시지 출력
         if (score != null) {
