@@ -24,10 +24,5 @@ public class Subject {
         return subjectType;
     }
 
-    public String getId() {
-        return null;
-    }
 
-    public String getName() {
-        return subjectName;}
 }

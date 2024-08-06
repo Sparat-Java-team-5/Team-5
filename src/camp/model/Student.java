@@ -18,10 +18,4 @@ public class Student {
         return studentName;
     }
 
-    public String getName() {
-        return studentName;
-    }
-
-    public String getId() {
-        return studentId;}
 }

@@ -4,20 +4,16 @@ import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class CampManagementApplication {
     // 데이터 저장소
     private static List<Student> studentStore;
     private static List<Subject> subjectStore;
     private static List<Score> scoreStore;
-//<<<<<<< Test/Sumin
-//=======
     private static Map<String, ArrayList> subjectTakenStore;
-    private static Map<String, Map<String, List<Integer>>> scoreMap = new HashMap<>();
-//>>>>>>> Feat/Sumin
+    //private static Map<String, Map<String, List<Integer>>> scoreMap = new HashMap<>();
+
 
     // 과목 타입
     private static final String SUBJECT_TYPE_MANDATORY = "MANDATORY";
@@ -169,10 +165,6 @@ public class CampManagementApplication {
         String studentName = sc.next();
         Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
         studentStore.add(student);
-//<<<<<<< Test/Sumin
-        System.out.println("수강생 등록 성공!\n");
-//=======
-        // 수강생 인스턴스 생성
 
         //수강신청된 과목 저장 배열
         ArrayList<String> mandatorySubjectTaken = new ArrayList<>();
@@ -320,8 +312,6 @@ public class CampManagementApplication {
         //성공
         System.out.println("****** 수강생 등록 및 과목 등록 성공! *****\n");
 
-
-//>>>>>>> Feat/Sumin
     }
 
     // 수강생 목록 조회
@@ -331,7 +321,7 @@ public class CampManagementApplication {
             System.out.println("등록된 수강생이 없습니다.");
         } else {
             for (Student student : studentStore) {
-                System.out.println("ID: " + student.getId() + ", 이름: " + student.getName());
+                System.out.println("ID: " + student.getStudentId() + ", 이름: " + student.getStudentName());
             }
         }
         System.out.println("\n수강생 목록 조회 성공!");
@@ -361,13 +351,7 @@ public class CampManagementApplication {
             }
         }
     }
-//<<<<<<< Test/Sumin
-    private static String getStudentId() {
-        System.out.print("\n관리할 수강생의 번호를 입력하시오...");
-        return sc.next();
-    }
-    // 수강생의 과목별 시험 회차 및 점수 등록
-//=======
+
 
 
     private static String getStudentId() {
@@ -385,81 +369,58 @@ public class CampManagementApplication {
         return null;
     }
 
-//>>>>>>> Feat/Sumin
-    private static void createScore() {
+    private static void createScore()
+    {
+//        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+//        if (studentId == null) {
+//            return; // 수강생이 없거나 잘못된 ID인 경우 메서드 종료
+//        }
+//
+//        System.out.println("===[시험 점수를 등록합니다]===");
+//        // 수강생의 과목 정보를 가져옴
+//        ArrayList<String> subjects = subjectTakenStore.get(studentId);
+//
+//        boolean againSc = true;
+//        while (againSc) {
+//            for (int i = 0; i < subjects.size(); i++) {
+//                System.out.println("[" + (i + 1) + "]" + " : " + subjects.get(i));
+//            }
+//            System.out.println("===[점수를 등록할 과목 번호를 입력해주세요]===");
+//            String subjectId = sc.next();
+//
+//            String selectedSubject = subjectId;
+//            System.out.println("[선택한 과목입니다] : " + selectedSubject);
+//
+//            Map<String, List<Integer>> studentScores = scoreMap.getOrDefault(subjectId, new HashMap<>());
+//
+//            List<Integer> scores = studentScores.getOrDefault(selectedSubject, new ArrayList<>());
+//
+//            int round = scores.size() + 1;
+//            System.out.println("["+round + "회차 점수를 입력해주세요.]");
+//
+//            int score = sc.nextInt();
+//            scores.add(score); // 점수를 리스트에 추가
+//
+//            studentScores.put(selectedSubject, scores);
+//            scoreMap.put(subjectId, studentScores);
+//
+//            System.out.println("\n===[점수 등록 성공!]===");
+//            System.out.println("===[다른 과목 점수를 등록하시겠습니까? (yes / no)]===");
+//            String againScore = sc.next();
+//            if (!againScore.equals("yes")) {
+//                againSc = false;
+//            }
+//        }
 
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        System.out.print("과목명을 입력하세요: ");
-        String subjectName = sc.next();
-        Subject subject = findSubjectByName(subjectName);
-        if (subject == null) {
-            System.out.println("과목을 찾을 수 없습니다. 과목명을 확인해주세요.");
-            return;
-        }
-//<<<<<<< Test/Sumin
-        System.out.print("시험 회차를 입력하세요: ");
-        int round = sc.nextInt();
-        System.out.print("시험 점수를 입력하세요: ");
-        int scoreValue = sc.nextInt();
-        Score score = new Score(sequence(INDEX_TYPE_SCORE), studentId, subject.getId(), round, scoreValue);
-        scoreStore.add(score);
-
-        System.out.println("\n점수 등록 성공!");
     }
 
-    //1. 생성자로 LIST값을 외부에서 받기
-    public CampManagementApplication(List<Student> studentStore, List<Subject> subjectStore, List<Score> scoreStore){
-        this.studentStore = studentStore;
-        this.subjectStore = subjectStore;
-        this.scoreStore = scoreStore;
-    }
+//    //1. 생성자로 LIST값을 외부에서 받기
+//    public CampManagementApplication(List<Student> studentStore, List<Subject> subjectStore, List<Score> scoreStore){
+//        this.studentStore = studentStore;
+//        this.subjectStore = subjectStore;
+//        this.scoreStore = scoreStore;
+//    }
 
-    //3. 헬퍼메서드 -> 컬렉션 stream이용
-    private static Student findStudentById(String studentId){
-        return studentStore.stream()
-                .filter(student -> student.getStudentId().equals(studentId))//getstudentId==studentId인지 비교
-                .findFirst()
-                .orElse(null);
-    }
-    private static Subject findSubjectByName(String subjectName){
-//=======
-
-        System.out.println("===[시험 점수를 등록합니다]===");
-        // 수강생의 과목 정보를 가져옴
-        ArrayList<String> subjects = subjectTakenStore.get(studentId);
-
-        boolean againSc = true;
-        while (againSc) {
-            for (int i = 0; i < subjects.size(); i++) {
-                System.out.println("[" + (i + 1) + "]" + " : " + subjects.get(i));
-            }
-            System.out.println("===[점수를 등록할 과목 번호를 입력해주세요]===");
-            String subjectId = sc.next();
-
-            String selectedSubject = subjectId;
-            System.out.println("[선택한 과목입니다] : " + selectedSubject);
-
-            Map<String, List<Integer>> studentScores = scoreMap.getOrDefault(subjectId, new HashMap<>());
-
-            List<Integer> scores = studentScores.getOrDefault(selectedSubject, new ArrayList<>());
-
-            int round = scores.size() + 1;
-            System.out.println("["+round + "회차 점수를 입력해주세요.]");
-
-            int score = sc.nextInt();
-            scores.add(score); // 점수를 리스트에 추가
-
-            studentScores.put(selectedSubject, scores);
-            scoreMap.put(subjectId, studentScores);
-
-            System.out.println("\n===[점수 등록 성공!]===");
-            System.out.println("===[다른 과목 점수를 등록하시겠습니까? (yes / no)]===");
-            String againScore = sc.next();
-            if (!againScore.equals("yes")) {
-                againSc = false;
-            }
-        }
-    }
 
     //3. 헬퍼메서드 -> 기능구현에 활용할 함수
     private static Student findStudentById(String studentId){ //ID로학생찾는매서드
@@ -469,35 +430,24 @@ public class CampManagementApplication {
                 .orElse(null); //조건에 맞는 학생 객체 없으면 null
     }
     private static Subject findSubjectByName(String subjectName){//과목명으로 과목 찾는 메서드
-//>>>>>>> Feat/Sumin
         return subjectStore.stream()
                 .filter(subject -> subject.getSubjectName().equals(subjectName))
                 .findFirst()
                 .orElse(null);
 
     }
-//<<<<<<< Test/Sumin
-    private static Score findScore(Student student, Subject subject, int round) {
-//=======
+
+
     private static Score findScore(Student student, Subject subject, int round) {//수강생,과목,회차로 점수 찾는 매소드
-//>>>>>>> Feat/Sumin
+
         return scoreStore.stream()
                 .filter(score -> score.getStudent().getStudentId().equals(student.getStudentId()) &&
                         score.getSubject().getSubjectId().equals(subject.getSubjectId()) &&
                         score.getRound() == round)
                 .findFirst()
                 .orElse(null);
-//<<<<<<< Test/Sumin
     }
 
-    private List<Score> findScoresByStudentAndSubject(Student student, Subject subject) {
-        return scoreStore.stream()
-                .filter(score -> score.getStudent().getStudentId().equals(student.getStudentId()) &&
-                        score.getSubject().getSubjectId().equals(subject.getSubjectId()))
-                .toList();
-//=======
-//>>>>>>> Feat/Sumin
-    }
 
     private static List<Score> findScoresByStudentAndSubject(Student student, Subject subject) {//수강생이랑 과목으로 점수 찾는 메소드
         return scoreStore.stream()
@@ -506,27 +456,18 @@ public class CampManagementApplication {
                 .toList();
     }
 
-//<<<<<<< Test/Sumin
-    // 수강생의 과목별 회차 점수 수정 -> 기능 구현 시작
-    private static void updateRoundScoreBySubject() {
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호(ID)입력받기
-        // ID 입력받고 ID헬퍼메서드 호출해서 ID추적. 없으면 오류(ID값 == null)
-//=======
+
     // 수강생의 과목별 회차 점수 수정 -> 기능구현시작
     private static void updateRoundScoreBySubject() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호(ID)입력받기
         // 3. ID 입력받고 ID헬퍼메서드 호출해서 ID추적. 없으면 오류(ID값 == null)
-//>>>>>>> Feat/Sumin
         Student student = findStudentById(studentId);
         if (student == null) {
             System.out.println("수강생을 찾을 수 없습니다.");
             return;
         }
-//<<<<<<< Test/Sumin
-// subject 입력받고 subject헬퍼 매서드 호출해 해당 과목 찾고 없으면 오류메시지
-//=======
-//  subject 입력받고 subject헬퍼 매서드 호출해 해당 과목 찾고 없으면 오류메시지
-//>>>>>>> Feat/Sumin
+
+        //  subject 입력받고 subject헬퍼 매서드 호출해 해당 과목 찾고 없으면 오류메시지
         System.out.println("수정할 과목명을 입력해주세요 : ");
         String subjectName = sc.next();
         Subject subject = findSubjectByName(subjectName);
@@ -534,17 +475,14 @@ public class CampManagementApplication {
             System.out.println("과목을 찾을 수 없습니다.");
             return;
         }
-//<<<<<<< Test/Sumin
-//수정할 회차와 점수 입력받고 score헬퍼 호출 해 특정과목회차점수 찾기
-//=======
-// 수정할 회차와 점수 입력받고 score헬퍼 호풀해 특정과목회차점수 찾기
-//>>>>>>> Feat/Sumin
+
+        //수정할 회차와 점수 입력받고 score헬퍼 호출 해 특정과목회차점수 찾기
         System.out.println("수정할 회차를 입력하세요 : ");
         int round = sc.nextInt();
         System.out.println("수정할 점수를 입력하세요 : ");
         int scoreValue = sc.nextInt();
         Score score = findScore(student, subject, round);
-// 점수있으면 수정하고 성공메시지 출력,없으면 오류메시지 출력
+        // 점수있으면 수정하고 성공메시지 출력,없으면 오류메시지 출력
         if (score != null) {
             score.setScore(scoreValue);
             System.out.println("시험 점수 수정 성공");
@@ -553,15 +491,8 @@ public class CampManagementApplication {
         }
 
     }
-//<<<<<<< Test/Sumin
-//=======
 
 
-
-
-
-
-//>>>>>>> Feat/Sumin
     // 수강생의 특정 과목 회차별 등급 조회
     private static void inquireRoundGradeBySubject() {
         String studentId = getStudentId();
@@ -572,14 +503,15 @@ public class CampManagementApplication {
             System.out.println("과목을 찾을 수 없습니다. 과목명을 확인해주세요.");
             return;
         }
-        List<Score> scores = findScoresByStudentAndSubject(studentId, subject.getId());
+        List<Score> scores = findScoresByStudentAndSubject(studentId, subject.getSubjectId());
         if (scores.isEmpty()) {
             System.out.println("해당 과목에 대한 점수가 존재하지 않습니다.");
             return;
         }
         System.out.println("회차별 등급을 조회합니다...");
         for (Score score : scores) {
-            System.out.println("회차: " + score.getRound() + ", 점수: " + score.getScore());
+            System.out.println("회차: " + score.getRound() + ", 점수: " + score.getScore()+", 등급 : "+score.getGrade());
+
         }
         System.out.println("\n등급 조회 성공!");
     }
