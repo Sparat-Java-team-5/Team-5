@@ -393,14 +393,16 @@ public class CampManagementApplication {
         System.out.println("===[시험 점수를 등록합니다]===");
         // 수강생이 수강한 과목 정보를 가져옴
         ArrayList<String> subjects = subjectTakenStore.get(studentId);
-        System.out.println("확인용 출력 : "+subjects);
+        //System.out.println("확인용 출력 : "+subjects);
 
         //수강한 과목수 만큼 돌면서 모든 과목 점수 입력받도록
         boolean againSc = true;
         while (againSc) {
-            for (int i = 0; i < subjects.size(); i++) {
-                System.out.println("[" + (i + 1) + "]" + " : " + subjects.get(i));
+            for(String subjectId : subjects){
+                Subject subjectName = findSubjectNameById(subjectId);
+                System.out.println("[" + subjectId + "] : "+ subjectName.getSubjectName());
             }
+
             System.out.println("수정할 과목명을 입력해주세요 : ");
             String subjectName = sc.next();
             Subject subject = findSubjectByName(subjectName);
@@ -447,9 +449,19 @@ public class CampManagementApplication {
                 .orElse(null); //조건에 맞는 학생 객체 없으면 null
     }
 
+
     private static Subject findSubjectByName(String subjectName){//과목명으로 과목 찾는 메서드
         return subjectStore.stream()
                 .filter(subject -> subject.getSubjectName().equals(subjectName))
+                .findFirst()
+                .orElse(null);
+
+    }
+
+    //과목 고유 ID로 과목 명 찾기
+    private static Subject findSubjectNameById(String subjectId){
+        return subjectStore.stream()
+                .filter(subject -> subject.getSubjectId().equals(subjectId))
                 .findFirst()
                 .orElse(null);
 
