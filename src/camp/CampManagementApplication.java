@@ -529,14 +529,6 @@ public class CampManagementApplication {
     }
 
 
-//    private static List<Score> findScoresByStudentAndSubject(Student student, Subject subject) {//수강생이랑 과목으로 점수 찾는 메소드
-//        return scoreStore.stream()
-//                .filter(score -> score.getStudent().getStudentId().equals(student.getStudentId()) &&
-//                        score.getSubject().getSubjectId().equals(subject.getSubjectId()))//특정 수강생, 특정 과목만 남긴다.
-//                .toList();
-//    }
-
-
     // 수강생의 과목별 회차 점수 수정 -> 기능구현시작
     private static void updateRoundScoreBySubject() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호(ID)입력받기
