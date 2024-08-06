@@ -220,11 +220,11 @@ public class CampManagementApplication {
                             "[필수 과목 수강을 종료하시겠습니까? (yes / no )]");
                     String exit = sc.next();
                     if (exit.equals("yes")) {
+                        System.out.println("===[현재 등록된 필수 과목 리스트입니다. " + mandatorySubjectTaken.size() + "과목이 등록되었습니다]===");
                         System.out.println("====[선택 과목으로 이동합니다.]====");
                         mandatory = false;
                         break;
                     } else if (exit.equals("no")) {
-                        System.out.println("===[현재 등록된 필수 과목 리스트입니다. " + mandatorySubjectTaken.size() + "과목이 등록되었습니다]===");
                         System.out.println("====[신청할 필수 과목 번호를 입력해주세요.]====");
                         System.out.println(mandatorySubjectTaken);
                         break;
@@ -235,9 +235,12 @@ public class CampManagementApplication {
             }
         }
         System.out.println("***********************************");
-        System.out.println("필수과목은 최대 5개까지 수강 가능합니다.\n" +
-                "이미 최대 수강신청 과목 수만큼 수강이 완료되셨습니다.\n" +
-                "필수 과목 수강 신청을 종료 합니다.");
+        if(mandatorySubjectTaken.size() == 5){
+            System.out.println("===[현재 등록된 필수 과목 리스트입니다. " + mandatorySubjectTaken.size() + "과목이 등록되었습니다]===");
+            System.out.println("필수과목은 최대 5개까지 수강 가능합니다.\n" +
+                    "이미 최대 수강신청 과목 수만큼 수강이 완료되셨습니다.\n");
+        }
+        System.out.println("필수 과목 수강 신청을 종료 합니다.");
         //======================================================================================================
         System.out.println("============[ 선택과목 수강신청 ]============");
         System.out.println("==[수강하실 선택과목 2개 이상 입력해 주세요!]==");
@@ -300,9 +303,12 @@ public class CampManagementApplication {
 
         }
         System.out.println("***********************************");
-        System.out.println("선택과목은 최대 4개까지 수강 가능합니다.\n" +
-                "이미 최대 수강신청 과목 수만큼 수강이 완료되셨습니다.\n" +
-                "선택 과목 수강 신청을 종료 합니다.\n");
+        if(choiceSubjectTaken.size() == 4){
+            System.out.println("===[현재 등록된 선택 과목 리스트입니다. " + choiceSubjectTaken.size() + "과목이 등록되었습니다]===");
+            System.out.println("선택과목은 최대 4개까지 수강 가능합니다.\n" +
+                    "이미 최대 수강신청 과목 수만큼 수강이 완료되셨습니다.\n");
+        }
+        System.out.println("선택 과목 수강 신청을 종료 합니다.\n");
 
         mandatorySubjectTaken.addAll(choiceSubjectTaken);
         //(Key : 학생 고유 ID, Value : 학생이 수강한 과목 ArrayList) 형식으로 Map자료형에 추가
@@ -480,8 +486,12 @@ public class CampManagementApplication {
         }
 
         //수정할 회차와 점수 입력받고 score헬퍼 호출 해 특정과목회차점수 찾기
+        //입력 받을 수 있는 회차는 1 ~ 10 사이 수
+//        int round;
+
         System.out.println("수정할 회차를 입력하세요 : ");
         int round = sc.nextInt();
+
         System.out.println("수정할 점수를 입력하세요 : ");
         int scoreValue = sc.nextInt();
         Score score = findScore(student, subject, round);
@@ -525,13 +535,4 @@ public class CampManagementApplication {
                 .toList();
     }
 
-//    private static List<Score> findScoresByStudentAndSubject(String studentId, String subjectId) {
-//        List<Score> scores = new ArrayList<>();
-//        for (Score score : scoreStore) {
-//            if (score.getStudentId().equals(studentId) && score.getSubjectId().equals(subjectId)) {
-//                scores.add(score);
-//            }
-//        }
-//        return scores;
-//    }
 }
