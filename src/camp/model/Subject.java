@@ -1,9 +1,9 @@
 package camp.model;
 
 public class Subject {
-    private String subjectId;
-    private String subjectName;
-    private String subjectType;
+    private final String subjectId;
+    private final String subjectName;
+    private final String subjectType;
 
     public Subject(String seq, String subjectName, String subjectType) {
         this.subjectId = seq;
@@ -24,4 +24,10 @@ public class Subject {
         return subjectType;
     }
 
+    public String getId() {
+        return null;
+    }
+
+    public String getName() {
+        return subjectName;}
 }
