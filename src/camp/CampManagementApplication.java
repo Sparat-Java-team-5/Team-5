@@ -429,6 +429,7 @@ public class CampManagementApplication {
                 .findFirst() //걸러진 스트림에서 first요소를 find하는 것. (따라서 조건에 맞는 첫 번째 학생 객체를 반환)
                 .orElse(null); //조건에 맞는 학생 객체 없으면 null
     }
+
     private static Subject findSubjectByName(String subjectName){//과목명으로 과목 찾는 메서드
         return subjectStore.stream()
                 .filter(subject -> subject.getSubjectName().equals(subjectName))
@@ -449,12 +450,12 @@ public class CampManagementApplication {
     }
 
 
-    private static List<Score> findScoresByStudentAndSubject(Student student, Subject subject) {//수강생이랑 과목으로 점수 찾는 메소드
-        return scoreStore.stream()
-                .filter(score -> score.getStudent().getStudentId().equals(student.getStudentId()) &&
-                        score.getSubject().getSubjectId().equals(subject.getSubjectId()))//특정 수강생, 특정 과목만 남긴다.
-                .toList();
-    }
+//    private static List<Score> findScoresByStudentAndSubject(Student student, Subject subject) {//수강생이랑 과목으로 점수 찾는 메소드
+//        return scoreStore.stream()
+//                .filter(score -> score.getStudent().getStudentId().equals(student.getStudentId()) &&
+//                        score.getSubject().getSubjectId().equals(subject.getSubjectId()))//특정 수강생, 특정 과목만 남긴다.
+//                .toList();
+//    }
 
 
     // 수강생의 과목별 회차 점수 수정 -> 기능구현시작
