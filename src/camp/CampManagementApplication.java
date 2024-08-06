@@ -426,79 +426,7 @@ public class CampManagementApplication {
                 againSc = false;
             }
         }
-
-        //--------------------------------------------------------------------
-//        String studentId = getStudentId(); // 관리할 수강생 고유 번호
-//        if (studentId == null) {
-//            return; // 수강생이 없거나 잘못된 ID인 경우 메서드 종료
-//        }
-//        System.out.println("======== [[" + studentId +
-//                "]] 시험 점수를 등록합니다 =========");
-//        // 수강생의 과목 정보를 가져옴 & 점수 등록할 과목 ID 가져옴
-//        String subjectId = getSubjectId(studentId);
-//        System.out.println(subjectId);
-//        Score scoreObject = new Score(sequence(INDEX_TYPE_SCORE), studentId, subjectId);
-//        for (int j=0;j<1;j++) {
-//            System.out.println(scoreObject.getScoreId());
-//            System.out.println("=========점수를 등록합니다=========");
-//            Map<Integer, Integer> roundScore = new HashMap<>();
-//            for (int i = 0; i < 10; i++) {
-//                System.out.println(i + 1 + " 회차 점수를 입력해 주세요 : ");
-//                int scoreInput = sc.nextInt();
-//                roundScore.put(i + 1, scoreInput);
-//            }
-//            scoreObject.setRoundScore(roundScore);
-//            scoreStore.add(scoreObject);
-//            System.out.println(scoreObject.getRoundScore().keySet());
-//            System.out.println(scoreObject.getRoundScore().values());
-//            for(Score score : scoreStore){
-//                System.out.println(score.getScoreId());
-//                System.out.println(score.getStudentId());
-//                System.out.println(score.getSubjectId());
-//                System.out.println(score.getRoundScore());
-//            }
-            //--------------------------------------------------------------------
-
-//        boolean againSc = true;
-//        while (againSc) {
-//            for (int i = 0; i < subjects.size(); i++) {
-//                System.out.println("[" + (i + 1) + "]" + " : " + subjects.get(i));
-//            }
-//            System.out.println("===[점수를 등록할 과목 번호를 입력해주세요]===");
-//            String subjectId = sc.next();
-//
-//            String selectedSubject = subjectId;
-//            System.out.println("[선택한 과목입니다] : " + selectedSubject);
-//
-//            Map<String, List<Integer>> studentScores = scoreMap.getOrDefault(subjectId, new HashMap<>());
-//
-//            List<Integer> scores = studentScores.getOrDefault(selectedSubject, new ArrayList<>());
-//
-//            int round = scores.size() + 1;
-//            System.out.println("["+round + "회차 점수를 입력해주세요.]");
-//
-//            int score = sc.nextInt();
-//            scores.add(score); // 점수를 리스트에 추가
-//
-//            studentScores.put(selectedSubject, scores);
-//            scoreMap.put(subjectId, studentScores);
-//
-//            System.out.println("\n===[점수 등록 성공!]===");
-//            System.out.println("===[다른 과목 점수를 등록하시겠습니까? (yes / no)]===");
-//            String againScore = sc.next();
-//            if (!againScore.equals("yes")) {
-//                againSc = false;
-//            }
-//        }
-
     }
-
-//    //1. 생성자로 LIST값을 외부에서 받기
-//    public CampManagementApplication(List<Student> studentStore, List<Subject> subjectStore, List<Score> scoreStore){
-//        this.studentStore = studentStore;
-//        this.subjectStore = subjectStore;
-//        this.scoreStore = scoreStore;
-//    }
 
 
     //3. 헬퍼메서드 -> 기능구현에 활용할 함수
@@ -519,10 +447,9 @@ public class CampManagementApplication {
 
 
     private static Score findScore(Student student, Subject subject, int round) {//수강생,과목,회차로 점수 찾는 매소드
-
         return scoreStore.stream()
-                .filter(score -> score.getStudent().getStudentId().equals(student.getStudentId()) &&
-                        score.getSubject().getSubjectId().equals(subject.getSubjectId()) &&
+                .filter(score -> score.getStudentId().equals(student.getStudentId()) &&
+                        score.getSubjectId().equals(subject.getSubjectId()) &&
                         score.getRound() == round)
                 .findFirst()
                 .orElse(null);
