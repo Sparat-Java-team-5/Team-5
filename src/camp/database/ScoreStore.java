@@ -10,17 +10,17 @@ public class ScoreStore {
     private static List<Score> scoreStore;
 
     //생성자
-    public ScoreStore(List<Score> scoreStore){
+    public ScoreStore(List<Score> scoreStore) {
         this.scoreStore = scoreStore;
     }
 
     //getter
-    public static List<Score> getScoreStore(){
-        return scoreStore;
+    public List<Score> getScoreStore() {
+        return this.scoreStore;
     }
 
     //setter
-    public static void setScoreStore(Score scoreObject){
-        scoreStore.add(scoreObject);
+    public void setScoreStore(Score scoreObject) {
+        this.scoreStore.add(scoreObject);
     }
 }

@@ -13,18 +13,18 @@ public class SubjectTakenStore {
     }
 
     // 수강 과목 추가 메서드
-    public static void setSubjectTakenStore(String studentId, ArrayList<String> subjects) {
-        subjectTakenStore.put(studentId, subjects);
+    public void setSubjectTakenStore(String studentId, ArrayList<String> subjects) {
+        this.subjectTakenStore.put(studentId, subjects);
     }
 
     // 모든 수강 과목 조회 메서드
-    public static Map<String, ArrayList<String>> getSubjectTakenStore() {
-        return subjectTakenStore;
+    public Map<String, ArrayList<String>> getSubjectTakenStore() {
+        return this.subjectTakenStore;
     }
 
 
     // 수강 과목 조회 메서드
     public ArrayList<String> getSubjectsTaken(String studentId) {
-        return subjectTakenStore.get(studentId);
+        return this.subjectTakenStore.get(studentId);
     }
 }

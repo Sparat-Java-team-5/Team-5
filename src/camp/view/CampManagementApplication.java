@@ -14,12 +14,10 @@ import java.util.Scanner;
 import static camp.database.InitData.*;
 
 public class CampManagementApplication {
-
     public static ScoreStore scoreStore;
     public static StudentStore studentStore;
     public static SubjectStore subjectStore;
     public static SubjectTakenStore subjectTakenStore;
-
 
     // 스캐너
     private static final Scanner sc = new Scanner(System.in);

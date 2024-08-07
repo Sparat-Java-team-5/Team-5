@@ -14,12 +14,12 @@ public class StudentStore {
     }
 
     //getter
-    public static List<Student> getStudentStore(){
-        return studentStore;
+    public List<Student> getStudentStore(){
+        return this.studentStore;
     }
 
     //setter
-    public static void setStudentStore(Student studentObject){
-        studentStore.add(studentObject);
+    public void setStudentStore(Student studentObject){
+        this.studentStore.add(studentObject);
     }
 }

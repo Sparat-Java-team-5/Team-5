@@ -14,8 +14,9 @@ public class SubjectStore {
     public SubjectStore(List<Subject> subjectStore) {
         this.subjectStore = subjectStore;
     }
-    public static List<Subject> getSubjectStore() {
-        return subjectStore;
+
+    public List<Subject> getSubjectStore() {
+        return this.subjectStore;
     }
 }
 
