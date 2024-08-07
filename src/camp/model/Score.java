@@ -21,6 +21,7 @@ public class Score {
         this.subjectId = subjectId;
         this.round = round;//
         this.score = score;//
+
     }
 
     // Getter

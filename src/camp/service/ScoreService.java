@@ -1,10 +1,12 @@
 package camp.service;
 
 import camp.database.ScoreStore;
+
 import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
-
+import camp.database.InitData;
+  
 import java.util.*;
 
 public class ScoreService {
@@ -137,6 +139,7 @@ public class ScoreService {
             return;
         }
 
+
         //  subject 입력받고 subject헬퍼 매서드 호출해 해당 과목 찾고 없으면 오류메시지
         System.out.println("수정할 과목명을 입력해주세요 : ");
         String subjectName = sc.next();
@@ -145,6 +148,7 @@ public class ScoreService {
             System.out.println("과목을 찾을 수 없습니다.");
             return;
         }
+
 
         //수정할 회차와 점수 입력받고 score헬퍼 호출 해 특정과목회차점수 찾기
         //입력 받을 수 있는 회차는 1 ~ 10 사이 수
@@ -181,8 +185,8 @@ public class ScoreService {
         } else {
             System.out.println("해당 회차의 점수를 찾을 수 없습니다.");
         }
-
     }
+
 
 
     // 수강생의 특정 과목 회차별 등급 조회
@@ -212,6 +216,49 @@ public class ScoreService {
                 .filter(score -> score.getStudentId().equals(studentId) &&
                         score.getSubjectId().equals(subjectId))//특정 수강생, 특정 과목만 남긴다.
                 .toList();
+    }
+
+    //getGrade()
+    public String getGrade(String subjectId) {
+        List<Subject> subjectStore = campManagementApplication.getSubjectStore();
+        String subjectType="";
+        for (Subject subject : subjectStore){
+            if(subject.getSubjectId().equals(subjectId)){
+                subjectType = subject.getSubjectType();
+                break;
+            }
+        }
+        if (subjectType.equals("MANDATORY")) { // 필수 과목 등급 기준
+            if (score >= 95) {
+                return "A";
+            } else if (score >= 90) {
+                return "B";
+            } else if (score >= 80) {
+                return "C";
+            } else if (score >= 70) {
+                return "D";
+            } else if (score >= 60) {
+                return "E";
+            } else {
+                return "F";
+            }
+        } else if (subjectType.equals("CHOICE")) { // 선택 과목 등급 기준
+            if (score >= 90) {
+                return "A";
+            } else if (score >= 80) {
+                return "B";
+            } else if (score >= 70) {
+                return "C";
+            } else if (score >= 60) {
+                return "D";
+            } else if (score >= 50) {
+                return "E";
+            } else {
+                return "F";
+            }
+        } else {
+            return "F"; // 유효하지 않은 과목 유형
+        }
     }
 
 
