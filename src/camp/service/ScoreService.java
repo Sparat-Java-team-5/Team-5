@@ -2,11 +2,12 @@ package camp.service;
 
 import camp.database.ScoreStore;
 
+import camp.database.StudentStore;
 import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
 import camp.database.InitData;
-  
+
 import java.util.*;
 
 public class ScoreService {
@@ -19,10 +20,10 @@ public class ScoreService {
     public String getStudentId() {
         System.out.print("\n==[관리할 수강생의 번호를 입력하시오]===");
         String studentId = sc.next();
-        if (studentStore.isEmpty()) {
+        if (StudentStore.getAllStudents().isEmpty()) {
             System.out.println("===[등록된 수강생이 없습니다.]===");
             //수강생 등록 메서드 이동
-            createStudent();
+            CampManagementApplication.createStudent();
         }
         for (Student student : studentStore) {
             if (student.getStudentId().equals(studentId)) {

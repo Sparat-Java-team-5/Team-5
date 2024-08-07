@@ -27,15 +27,15 @@ public class InitData {
     private static int scoreIndex;
     public static final String INDEX_TYPE_SCORE = "SC";
 
-    //setInitData()
-    //sequence()
+
     public static void initialize() {
         setInitData();
     }
 
 
     private static void setInitData() {
-        studentStore = new ArrayList<>();
+
+        StudentStore studentstore = new StudentStore(StudentStore);
         subjectStore = List.of(
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
