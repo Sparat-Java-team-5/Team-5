@@ -2,7 +2,11 @@ package camp.service;
 
 import camp.database.*;
 import camp.model.*;
+import camp.view.CampManagementApplication;
+
 import java.util.*;
+
+import static camp.database.InitData.INDEX_TYPE_SCORE;
 
 public class ScoreService {
     //스캐너
@@ -20,7 +24,7 @@ public class ScoreService {
         if (studentStore.getStudentStore().isEmpty()) {
             System.out.println("===[등록된 수강생이 없습니다.]===");
             //수강생 등록 메서드 이동
-            createStudent();
+            CampManagementApplication.createStudent();
         }
         for (Student student : studentStore.getStudentStore()) {
             if (student.getStudentId().equals(studentId)) {
@@ -67,7 +71,7 @@ public class ScoreService {
             for (int i = 0; i < 10; i++) {
                 System.out.println(i + 1 + " 회차 점수를 입력해 주세요 : ");
                 int scoreInput = sc.nextInt();
-                Score scoreObject = new Score(sequence(INDEX_TYPE_SCORE), studentId, selectedSubjectId, i+1, scoreInput);
+                Score scoreObject = new Score(InitData.sequence(INDEX_TYPE_SCORE), studentId, selectedSubjectId, i+1, scoreInput);
                 scoreStore.setScoreStore(scoreObject);
             }
 

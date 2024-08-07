@@ -1,8 +1,6 @@
 package camp.view;
 
-import camp.database.InitData;
-import camp.database.SubjectTakenStore;
-import camp.database.StudentStore;
+import camp.database.*;
 
 import camp.model.Score;
 import camp.model.Student;
@@ -12,15 +10,14 @@ import camp.service.ScoreService;
 import java.util.*;
 
 import static camp.database.InitData.*;
-import static camp.database.SubjectTakenStore.getAllSubjectTakenStore;
 
 public class CampManagementApplication {
-    // 데이터 저장소
-    private static List<Student> studentStore;
-    private static List<Subject> subjectStore;
-    private static List<Score> scoreStore;
-    private static Map<String, ArrayList> subjectTakenStore;
 
+    //생성자
+    public static ScoreStore scoreStore;
+    public static StudentStore studentStore;
+    public static SubjectTakenStore subjectTakenStore;
+    public static SubjectStore subjectStore;
 
     // 스캐너
     private static final Scanner sc = new Scanner(System.in);
@@ -31,8 +28,8 @@ public class CampManagementApplication {
     public static void main(String[] args) {
         try {
             InitData.initialize();
-            subjectStore = InitData.getSubjectStore();
-            scoreStore = InitData.getScoreStore();
+//            subjectStore = InitData.getSubjectStore();
+//            scoreStore = InitData.getScoreStore();
 
             displayMainView();
         } catch (Exception e) {
@@ -91,12 +88,12 @@ public class CampManagementApplication {
     }
 
     // 수강생 등록
-    private static void createStudent() {
+    public static void createStudent() {
         System.out.println("\n수강생을 등록합니다...");
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
-        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
-        StudentStore.setStudentStore(student);
+        Student student = new Student(InitData.sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
+        studentStore.setStudentStore(student);
 
         //수강신청된 과목 저장 배열
         ArrayList<String> mandatorySubjectTaken = new ArrayList<>();
@@ -105,7 +102,7 @@ public class CampManagementApplication {
         System.out.println("===[수강하실 필수과목 3개 이상 입력해 주세요!]===");
         System.out.println("[과목 코드] [과목 명]");
         //필수과목코드와 과목 명 출력
-        for (Subject subject : subjectStore) {
+        for (Subject subject : subjectStore.getSubjectStore()) {
             if (subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY)) {
                 System.out.println("[" + subject.getSubjectId() + "] " + subject.getSubjectName());
             }
@@ -120,7 +117,7 @@ public class CampManagementApplication {
             //입력한 과목코드가 존재하는지 확인하는 변수
             boolean isContain = false;
 
-            for (Subject subject : subjectStore) {
+            for (Subject subject : subjectStore.getSubjectStore()) {
                 //과목 저장소에 있는 과목코드 이고, 수강한 과목과 중복되지 않는 과목코드만 수강 가능
                 if (subject.getSubjectId().equals(subjectId) && subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY)) {
                     if (!mandatorySubjectTaken.contains(subjectId)) { //중복 등록 방지
@@ -174,7 +171,7 @@ public class CampManagementApplication {
         System.out.println("==[수강하실 선택과목 2개 이상 입력해 주세요!]==");
         System.out.println("[과목 코드] 과목 명");
         //필수과목코드와 과목 명 출력
-        for (Subject subject : subjectStore) {
+        for (Subject subject : subjectStore.getSubjectStore()) {
             if (subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)) {
                 System.out.println("[" + subject.getSubjectId() + "] " + subject.getSubjectName());
             }
@@ -191,7 +188,7 @@ public class CampManagementApplication {
             //입력한 과목코드가 존재하는지 확인하는 변수
             boolean isContain = false;
 
-            for (Subject subject : subjectStore) {
+            for (Subject subject : subjectStore.getSubjectStore()) {
                 //과목 저장소에 있는 과목코드 이고, 수강한 과목과 중복되지 않는 과목코드만 수강 가능
                 if (subject.getSubjectId().equals(subjectId) && subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)) {
                     if (!choiceSubjectTaken.contains(subjectId)) { //중복 등록 방지
@@ -238,11 +235,11 @@ public class CampManagementApplication {
         System.out.println("선택 과목 수강 신청을 종료 합니다.\n");
 
         mandatorySubjectTaken.addAll(choiceSubjectTaken);
-        SubjectTakenStore.addSubjectsTaken(student.getStudentId(), mandatorySubjectTaken);
+        subjectTakenStore.setSubjectTakenStore(student.getStudentId(), mandatorySubjectTaken);
 
         //확인용 출력
         System.out.println("===== 수강생이 신청한 과목 확인 출력 =====");
-        for (Map.Entry<String, ArrayList<String>> entrySet : getAllSubjectTakenStore().entrySet()) {
+        for (Map.Entry<String, ArrayList<String>> entrySet : subjectTakenStore.getSubjectTakenStore().entrySet()) {
             System.out.println("[ " + entrySet.getKey() + " : " + entrySet.getValue() + " ]");
         }
 
@@ -254,11 +251,10 @@ public class CampManagementApplication {
     // 수강생 목록 조회
     private static void inquireStudent() {
         System.out.println("\n수강생 목록을 조회합니다...");
-        Map<String, Student> students = StudentStore.getAllStudents();
-        if (students.isEmpty()) {
+        if (studentStore.getStudentStore().isEmpty()) {
             System.out.println("등록된 수강생이 없습니다.");
         } else {
-            for (Student student : students.values()) {
+            for (Student student : studentStore.getStudentStore()) {
                 System.out.println("ID: " + student.getStudentId() + ", 이름: " + student.getStudentName());
             }
         }
