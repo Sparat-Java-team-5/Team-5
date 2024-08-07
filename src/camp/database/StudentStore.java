@@ -2,14 +2,20 @@ package camp.database;
 
 import camp.model.Student;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-//학생 정보를 저장하는 데이터 저장소
 public class StudentStore {
-    //학생 정보를 저장하는 리스트 자료구조
-    private static List<Student> studentStore;
+    // key: 학생 ID, value: Student 객체
+    private static Map<String, Student> studentStore = new HashMap<>();
 
-    //getter
+    // 학생 추가 메서드
+    public static void addStudent(Student student) {
+        studentStore.put(student.getStudentId(), student);
+    }
 
-    //setter
+    // 모든 학생 조회 메서드
+    public static Map<String, Student> getAllStudents() {
+        return studentStore;
+    }
 }
