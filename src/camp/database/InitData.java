@@ -24,14 +24,10 @@ public class InitData {
 
 
     private static void setInitData() {
-//<<<<<<< Feat/Sumin
+
         StudentStore studentStore = new StudentStore(new ArrayList<>());
         List<Subject> subjects = List.of(
-//=======
-        ArrayList<Subject> Subject = new ArrayList<>();
-        StudentStore studentstore = new StudentStore();
-        subjectStore = List.of(
-//>>>>>>> release1-3
+
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "Java",

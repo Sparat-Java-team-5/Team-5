@@ -50,49 +50,4 @@ public class Score {
         this.score = score;
     }
 
-
-//    //getGrade() 는 ScoreService로
-//    //점수를 등급으로 환산하는 메서드 추가
-//    public String getGrade(String subjectId) {
-//        List<Subject> subjectStore = campManagementApplication.getSubjectStore();
-//        String subjectType="";
-//        for (Subject subject : subjectStore){
-//            if(subject.getSubjectId().equals(subjectId)){
-//                subjectType = subject.getSubjectType();
-//                break;
-//            }
-//        }
-//        if (subjectType.equals("MANDATORY")) { // 필수 과목 등급 기준
-//            if (score >= 95) {
-//                return "A";
-//            } else if (score >= 90) {
-//                return "B";
-//            } else if (score >= 80) {
-//                return "C";
-//            } else if (score >= 70) {
-//                return "D";
-//            } else if (score >= 60) {
-//                return "E";
-//            } else {
-//                return "F";
-//            }
-//        } else if (subjectType.equals("CHOICE")) { // 선택 과목 등급 기준
-//            if (score >= 90) {
-//                return "A";
-//            } else if (score >= 80) {
-//                return "B";
-//            } else if (score >= 70) {
-//                return "C";
-//            } else if (score >= 60) {
-//                return "D";
-//            } else if (score >= 50) {
-//                return "E";
-//            } else {
-//                return "F";
-//            }
-//        } else {
-//            return "F"; // 유효하지 않은 과목 유형
-//        }
-//    }
-
 }
