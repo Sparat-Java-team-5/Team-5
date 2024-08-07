@@ -1,20 +1,10 @@
 package camp.database;
 
-import camp.model.Score;
-import camp.model.Student;
-import camp.model.Subject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import camp.model.*;
+import java.util.*;
 
 //최초 데이터 생성 시 초기화
 public class InitData {
-    private  static List<Student> studentStore;
-    private static List<Subject> subjectStore;
-    private static List<Score> scoreStore;
-    private static Map<String, ArrayList> subjectTakenStore;
 
     public static final String SUBJECT_TYPE_MANDATORY = "MANDATORY";
     public static final String SUBJECT_TYPE_CHOICE = "CHOICE";
@@ -34,9 +24,14 @@ public class InitData {
 
 
     private static void setInitData() {
+//<<<<<<< Feat/Sumin
+        StudentStore studentStore = new StudentStore(new ArrayList<>());
+        List<Subject> subjects = List.of(
+//=======
         ArrayList<Subject> Subject = new ArrayList<>();
         StudentStore studentstore = new StudentStore();
         subjectStore = List.of(
+//>>>>>>> release1-3
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "Java",
@@ -83,8 +78,9 @@ public class InitData {
                         SUBJECT_TYPE_CHOICE
                 )
         );
-        scoreStore = new ArrayList<>();
-        subjectTakenStore = new HashMap<>(); //수강한 과목 저장 데이터베이스 자료형 생성
+        SubjectStore subjectStore = new SubjectStore(subjects);
+        ScoreStore scoreStore = new ScoreStore(new ArrayList<>());
+        SubjectTakenStore subjectTakenStore = new SubjectTakenStore(new HashMap<>()); //수강한 과목 저장 데이터베이스 자료형 생성
     }
 
     public static String sequence(String type) {
@@ -102,18 +98,6 @@ public class InitData {
                 return INDEX_TYPE_SCORE + scoreIndex;
             }
         }
-    }
-    public static List<Student> getStudentStore() {
-        return studentStore;
-    }
-    public static List<Subject> getSubjectStore() {
-        return subjectStore;
-    }
-    public static List<Score> getScoreStore() {
-        return scoreStore;
-    }
-    public static Map<String, ArrayList> getSubjectTakenStore() {
-        return subjectTakenStore;
     }
 }
 
