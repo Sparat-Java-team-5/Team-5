@@ -12,16 +12,16 @@ import java.util.Scanner;
 public class SubjectService {
     private static final Scanner sc = new Scanner(System.in);
     private static Map<String, ArrayList<String>> subjectTakenStore;
-    private static SubjectStore subjectStore;
+    public SubjectStore subjectStore;
 
     public void registerSubjects(Student student) {
         System.out.println("\n수강 과목을 등록합니다...");
         System.out.println("[필수 수강 과목 목록]");
-        SubjectStore.getSubjectStore().stream()
+        subjectStore.getSubjectStore().stream()
                 .filter(subject -> subject.getSubjectType().equals("MANDATORY"))
                 .forEach(subject -> System.out.println(subject.getSubjectName()));
         System.out.println("필수 과목은 자동으로 등록됩니다.");
-        List<String> mandatorySubjects = SubjectStore.getSubjectStore().stream()
+        List<String> mandatorySubjects = subjectStore.getSubjectStore().stream()
                 .filter(subject -> subject.getSubjectType().equals("MANDATORY"))
                 .map(Subject::getSubjectId)
                 .toList();
@@ -29,7 +29,7 @@ public class SubjectService {
         System.out.println("필수 과목이 등록되었습니다.\n");
 
         System.out.println("[선택 과목 목록]");
-        SubjectStore.getSubjectStore().stream()
+        subjectStore.getSubjectStore().stream()
                 .filter(subject -> subject.getSubjectType().equals("CHOICE"))
                 .forEach(subject -> System.out.println(subject.getSubjectName()));
 
@@ -53,7 +53,7 @@ public class SubjectService {
     }
 
     private Subject findSubjectByName(String subjectName) {
-        for (Subject subject : SubjectStore.getSubjectStore()) {
+        for (Subject subject : subjectStore.getSubjectStore()) {
             if (subject.getSubjectName().equals(subjectName)) {
                 return subject;
             }
