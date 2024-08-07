@@ -15,12 +15,12 @@ public class ScoreStore {
     }
 
     //getter
-    public List<Score> getScoreStore(){
-        return this.scoreStore;
+    public static List<Score> getScoreStore(){
+        return scoreStore;
     }
 
     //setter
-    public void setScoreStore(Score scoreObject){
-        this.scoreStore.add(scoreObject);
+    public static void setScoreStore(Score scoreObject){
+        scoreStore.add(scoreObject);
     }
 }

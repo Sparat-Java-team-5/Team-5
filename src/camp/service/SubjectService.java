@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class SubjectService {
     private static final Scanner sc = new Scanner(System.in);
     private static Map<String, ArrayList<String>> subjectTakenStore;
-    public SubjectStore subjectStore;
+    public SubjectStore subjectStore = new SubjectStore(new ArrayList<>());
 
     public void registerSubjects(Student student) {
         System.out.println("\n수강 과목을 등록합니다...");

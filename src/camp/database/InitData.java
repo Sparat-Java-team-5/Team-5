@@ -1,10 +1,24 @@
 package camp.database;
 
 import camp.model.*;
+import camp.service.ScoreService;
+import camp.service.StudentService;
+import camp.service.SubjectService;
+import camp.view.CampManagementApplication;
+
 import java.util.*;
 
 //최초 데이터 생성 시 초기화
 public class InitData {
+
+    private ScoreStore scoreStore;
+    private StudentStore studentStore;
+    private SubjectStore subjectStore;
+    private SubjectTakenStore subjectTakenStore;
+
+    private ScoreService scoreService;
+    private StudentService studentService;
+    private SubjectService subjectService;
 
     public static final String SUBJECT_TYPE_MANDATORY = "MANDATORY";
     public static final String SUBJECT_TYPE_CHOICE = "CHOICE";
@@ -22,10 +36,17 @@ public class InitData {
         setInitData();
     }
 
+//    public InitData(){
+//        scoreStore = new ScoreStore(new ArrayList<>());
+//        studentStore = new StudentStore(new ArrayList<>())
+//        scoreService = new ScoreService(scoreStore,);
+//    }
+
+
 
     private static void setInitData() {
 
-        StudentStore studentStore = new StudentStore(new ArrayList<>());
+        CampManagementApplication.studentStore = new StudentStore(new ArrayList<>());
         List<Subject> subjects = List.of(
 
                 new Subject(
@@ -74,9 +95,9 @@ public class InitData {
                         SUBJECT_TYPE_CHOICE
                 )
         );
-        SubjectStore subjectStore = new SubjectStore(subjects);
-        ScoreStore scoreStore = new ScoreStore(new ArrayList<>());
-        SubjectTakenStore subjectTakenStore = new SubjectTakenStore(new HashMap<>()); //수강한 과목 저장 데이터베이스 자료형 생성
+        CampManagementApplication.subjectStore = new SubjectStore(subjects);
+        CampManagementApplication.scoreStore = new ScoreStore(new ArrayList<>());
+        CampManagementApplication.subjectTakenStore = new SubjectTakenStore(new HashMap<>()); //수강한 과목 저장 데이터베이스 자료형 생성
     }
 
     public static String sequence(String type) {

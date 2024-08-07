@@ -4,6 +4,7 @@ import camp.database.InitData;
 import camp.database.StudentStore;
 import camp.model.Student;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static camp.database.InitData.INDEX_TYPE_STUDENT;
@@ -11,8 +12,8 @@ import static camp.database.InitData.INDEX_TYPE_STUDENT;
 public class StudentService {
     private static final Scanner sc = new Scanner(System.in);
 
-    public static StudentStore studentStore ;
-    public static SubjectService subjectService ;
+//    public static StudentStore studentStore = new StudentStore(new ArrayList<>());
+//    public static SubjectService subjectService = new SubjectService();
 
     //createStudent()
     public static void createStudent() {
@@ -20,9 +21,9 @@ public class StudentService {
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
         Student student = new Student(InitData.sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
-        studentStore.setStudentStore(student);
+        StudentStore.setStudentStore(student);
 
-        subjectService.registerSubjects(student);
+        SubjectService.registerSubjects(student);
         //성공
         System.out.println("****** 수강생 등록 및 과목 등록 성공! *****\n");
 

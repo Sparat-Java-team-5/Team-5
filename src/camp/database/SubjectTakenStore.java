@@ -13,13 +13,13 @@ public class SubjectTakenStore {
     }
 
     // 수강 과목 추가 메서드
-    public void setSubjectTakenStore(String studentId, ArrayList<String> subjects) {
-        this.subjectTakenStore.put(studentId, subjects);
+    public static void setSubjectTakenStore(String studentId, ArrayList<String> subjects) {
+        subjectTakenStore.put(studentId, subjects);
     }
 
     // 모든 수강 과목 조회 메서드
-    public Map<String, ArrayList<String>> getSubjectTakenStore() {
-        return this.subjectTakenStore;
+    public static Map<String, ArrayList<String>> getSubjectTakenStore() {
+        return subjectTakenStore;
     }
 
 

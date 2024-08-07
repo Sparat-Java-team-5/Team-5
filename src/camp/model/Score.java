@@ -11,7 +11,6 @@ public class Score {
     private String subjectId;
     private int round;
     private int score;
-    CampManagementApplication campManagementApplication = new CampManagementApplication();
 
 
     //Student student, Subject subject,

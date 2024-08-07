@@ -15,19 +15,17 @@ import static camp.database.InitData.*;
 
 public class CampManagementApplication {
 
-    //생성자
     public static ScoreStore scoreStore;
     public static StudentStore studentStore;
-    public static SubjectTakenStore subjectTakenStore;
     public static SubjectStore subjectStore;
+    public static SubjectTakenStore subjectTakenStore;
+
 
     // 스캐너
     private static final Scanner sc = new Scanner(System.in);
 
     //service 객체 생성
     private static ScoreService scoreService = new ScoreService();
-    private static StudentService studentService = new StudentService();
-    private static SubjectService subjectService = new SubjectService();
 
     public static void main(String[] args) {
         try {
@@ -37,6 +35,7 @@ public class CampManagementApplication {
 
             displayMainView();
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("\n오류 발생!\n프로그램을 종료합니다.");
         }
     }
@@ -91,9 +90,6 @@ public class CampManagementApplication {
         }
     }
 
-    // 수강생 등록
-
-    // 수강생 목록 조회
 
 
     private static void displayScoreView() {
