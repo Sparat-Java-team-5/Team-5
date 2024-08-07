@@ -21,12 +21,6 @@ public class CampManagementApplication {
     private static List<Score> scoreStore;
     private static Map<String, ArrayList> subjectTakenStore;
 
-    //Getter
-    public static List<Subject> getSubjectStore(){
-        return subjectStore;
-    }
-
-    // 과목 타입
 
     // 스캐너
     private static final Scanner sc = new Scanner(System.in);
@@ -102,7 +96,7 @@ public class CampManagementApplication {
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
         Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
-        StudentStore.addStudent(student);
+        StudentStore.setStudentStore(student);
 
         //수강신청된 과목 저장 배열
         ArrayList<String> mandatorySubjectTaken = new ArrayList<>();

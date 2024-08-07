@@ -11,7 +11,8 @@ import java.util.Map;
 
 //최초 데이터 생성 시 초기화
 public class InitData {
-    private  static List<Student> studentStore;
+//    public List<Student> studentStore = new ArrayList<>();
+    private static List<Student> studentStore;
     private static List<Subject> subjectStore;
     private static List<Score> scoreStore;
     private static Map<String, ArrayList> subjectTakenStore;
@@ -36,6 +37,7 @@ public class InitData {
 
     private static void setInitData() {
         studentStore = new ArrayList<>();
+        //StudentStore studentStore = new StudentStore(studentStore);
         subjectStore = List.of(
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),

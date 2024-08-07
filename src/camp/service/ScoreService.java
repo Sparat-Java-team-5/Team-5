@@ -1,13 +1,7 @@
 package camp.service;
 
-import camp.database.ScoreStore;
-
-import camp.database.StudentStore;
-import camp.model.Score;
-import camp.model.Student;
-import camp.model.Subject;
-import camp.database.InitData;
-  
+import camp.database.*;
+import camp.model.*;
 import java.util.*;
 
 public class ScoreService {
@@ -17,6 +11,8 @@ public class ScoreService {
     //생성자
     public ScoreStore scoreStore;
     public StudentStore studentStore;
+    public SubjectTakenStore subjectTakenStore;
+    public SubjectStore subjectStore;
 
     public String getStudentId() {
         System.out.print("\n==[관리할 수강생의 번호를 입력하시오]===");
@@ -45,7 +41,7 @@ public class ScoreService {
 
         System.out.println("===[시험 점수를 등록합니다]===");
         // 수강생이 수강한 과목 정보를 가져옴
-        ArrayList<String> subjects = subjectTakenStore.get(studentId);
+        ArrayList<String> subjects = subjectTakenStore.getSubjectTakenStore().get(studentId);
         //System.out.println("확인용 출력 : "+subjects);
 
         //수강한 과목수 만큼 돌면서 모든 과목 점수 입력받도록
@@ -104,7 +100,7 @@ public class ScoreService {
 
 
     public Subject findSubjectByName(String subjectName){//과목명으로 과목 찾는 메서드
-        return subjectStore.stream()
+        return subjectStore.getSubjectStore().stream()
                 .filter(subject -> subject.getSubjectName().equals(subjectName))
                 .findFirst()
                 .orElse(null);
@@ -113,7 +109,7 @@ public class ScoreService {
 
     //과목 고유 ID로 과목 명 찾기
     public Subject findSubjectNameById(String subjectId){
-        return subjectStore.stream()
+        return subjectStore.getSubjectStore().stream()
                 .filter(subject -> subject.getSubjectId().equals(subjectId))
                 .findFirst()
                 .orElse(null);
@@ -221,9 +217,8 @@ public class ScoreService {
 
     //getGrade()
     public String getGrade(Score score) {
-        List<Subject> subjectStore = //과목 스토리지 들고와야함;
         String subjectType="";
-        for (Subject subject : subjectStore){
+        for (Subject subject : subjectStore.getSubjectStore()){
             if(subject.getSubjectId().equals(score.getSubjectId())){
                 subjectType = subject.getSubjectType();
                 break;

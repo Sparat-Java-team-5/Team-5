@@ -9,7 +9,14 @@ public class SubjectStore {
     //과목 정보를 저장하는 리스트 자료구조
     private static List<Subject> subjectStore;
 
-    //getter
+    //생성자
+    public SubjectStore(List<Subject> subjectStore){
+        this.subjectStore = subjectStore;
+    }
 
-    //setter
+    //getter
+    public List<Subject> getSubjectStore(){
+        return this.subjectStore;
+    }
+
 }
