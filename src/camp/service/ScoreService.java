@@ -188,7 +188,6 @@ public class ScoreService {
     }
 
 
-
     // 수강생의 특정 과목 회차별 등급 조회
     public void inquireRoundGradeBySubject() {
         String studentId = getStudentId();
@@ -206,7 +205,7 @@ public class ScoreService {
         }
         System.out.println("회차별 등급을 조회합니다...");
         for (Score score : scores) {
-            System.out.println("회차: " + score.getRound() + ", 점수: " + score.getScore()+", 등급 : "+score.getGrade(score.getSubjectId()));
+            System.out.println("회차: " + score.getRound() + ", 점수: " + score.getScore()+", 등급 : "+ getGrade(score);
 
         }
         System.out.println("\n등급 조회 성공!");
@@ -219,39 +218,39 @@ public class ScoreService {
     }
 
     //getGrade()
-    public String getGrade(String subjectId) {
-        List<Subject> subjectStore = campManagementApplication.getSubjectStore();
+    public String getGrade(Score score) {
+        List<Subject> subjectStore = //과목 스토리지 들고와야함;
         String subjectType="";
         for (Subject subject : subjectStore){
-            if(subject.getSubjectId().equals(subjectId)){
+            if(subject.getSubjectId().equals(score.getSubjectId())){
                 subjectType = subject.getSubjectType();
                 break;
             }
         }
         if (subjectType.equals("MANDATORY")) { // 필수 과목 등급 기준
-            if (score >= 95) {
+            if (score.getScore() >= 95) {
                 return "A";
-            } else if (score >= 90) {
+            } else if (score.getScore() >= 90) {
                 return "B";
-            } else if (score >= 80) {
+            } else if (score.getScore() >= 80) {
                 return "C";
-            } else if (score >= 70) {
+            } else if (score.getScore() >= 70) {
                 return "D";
-            } else if (score >= 60) {
+            } else if (score.getScore() >= 60) {
                 return "E";
             } else {
                 return "F";
             }
         } else if (subjectType.equals("CHOICE")) { // 선택 과목 등급 기준
-            if (score >= 90) {
+            if (score.getScore() >= 90) {
                 return "A";
-            } else if (score >= 80) {
+            } else if (score.getScore() >= 80) {
                 return "B";
-            } else if (score >= 70) {
+            } else if (score.getScore() >= 70) {
                 return "C";
-            } else if (score >= 60) {
+            } else if (score.getScore() >= 60) {
                 return "D";
-            } else if (score >= 50) {
+            } else if (score.getScore() >= 50) {
                 return "E";
             } else {
                 return "F";
