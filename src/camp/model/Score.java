@@ -50,6 +50,7 @@ public class Score {
     }
 
 
+    //getGrade() 는 ScoreService로
     //점수를 등급으로 환산하는 메서드 추가
     public String getGrade(String subjectId) {
         List<Subject> subjectStore = campManagementApplication.getSubjectStore();

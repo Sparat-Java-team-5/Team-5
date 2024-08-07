@@ -7,4 +7,8 @@ import java.util.Map;
 public class SubjectTakenStore {
     //key : 학생 고유 ID , Value : 학생이 수강한 과목 배열
     private static Map<String, ArrayList> subjectTakenStore;
+
+    //getter
+
+    //setter
 }

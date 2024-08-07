@@ -8,4 +8,8 @@ import java.util.List;
 public class ScoreStore {
     //점수를 저장하는 리스트 자료구조
     private static List<Score> scoreStore;
+
+    //getter
+
+    //setter
 }
