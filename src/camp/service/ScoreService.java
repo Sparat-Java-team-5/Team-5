@@ -1,23 +1,29 @@
-//<<<<<<< Feat/Sumin
 package camp.service;
 
 import camp.database.*;
-import camp.model.*;
-import camp.view.CampManagementApplication;
+import camp.model.Score;
+import camp.model.Student;
+import camp.model.Subject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import static camp.database.InitData.INDEX_TYPE_SCORE;
 
 public class ScoreService {
-    //스캐너
     private static final Scanner sc = new Scanner(System.in);
+    private final ScoreStore scoreStore;
+    private final StudentStore studentStore;
+    private final SubjectTakenStore subjectTakenStore;
+    private final SubjectStore subjectStore;
 
-    //생성자
-    public ScoreStore scoreStore;
-    public StudentStore studentStore;
-    public SubjectTakenStore subjectTakenStore;
-    public SubjectStore subjectStore;
+    public ScoreService(ScoreStore scoreStore, StudentStore studentStore, SubjectTakenStore subjectTakenStore, SubjectStore subjectStore) {
+        this.scoreStore = scoreStore;
+        this.studentStore = studentStore;
+        this.subjectTakenStore = subjectTakenStore;
+        this.subjectStore = subjectStore;
+    }
 
     public String getStudentId() {
         System.out.print("\n==[관리할 수강생의 번호를 입력하시오]===");
@@ -36,8 +42,7 @@ public class ScoreService {
         return null;
     }
 
-    public void createScore()
-    {
+    public void createScore() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         if (studentId == null) {
             //점수 생성 메서드 호출 (재귀 함수)
@@ -47,7 +52,6 @@ public class ScoreService {
         System.out.println("===[시험 점수를 등록합니다]===");
         // 수강생이 수강한 과목 정보를 가져옴
         ArrayList<String> subjects = subjectTakenStore.getSubjectTakenStore().get(studentId);
-        //System.out.println("확인용 출력 : "+subjects);
 
         //수강한 과목수 만큼 돌면서 모든 과목 점수 입력받도록
         boolean againSc = true;
@@ -66,7 +70,6 @@ public class ScoreService {
             }
             String selectedSubjectId = subject.getSubjectId();
             System.out.println("[선택한 과목 고유코드 입니다] : " + selectedSubjectId);
-
 
             System.out.println("=========점수를 등록합니다=========");
             for (int i = 0; i < 10; i++) {
@@ -94,56 +97,14 @@ public class ScoreService {
         }
     }
 
-
-    //3. 헬퍼메서드 -> 기능구현에 활용할 함수
-    public Student findStudentById(String studentId){ //ID로학생찾는매서드
-        return studentStore.getStudentStore().stream() //stream : 컬렉션의 데이터를 하나씩 처리하는 도구
-                .filter(student -> student.getStudentId().equals(studentId))//getstudentId==studentId인지 비교
-                .findFirst() //걸러진 스트림에서 first요소를 find하는 것. (따라서 조건에 맞는 첫 번째 학생 객체를 반환)
-                .orElse(null); //조건에 맞는 학생 객체 없으면 null
-    }
-
-
-    public Subject findSubjectByName(String subjectName){//과목명으로 과목 찾는 메서드
-        return subjectStore.getSubjectStore().stream()
-                .filter(subject -> subject.getSubjectName().equals(subjectName))
-                .findFirst()
-                .orElse(null);
-
-    }
-
-    //과목 고유 ID로 과목 명 찾기
-    public Subject findSubjectNameById(String subjectId){
-        return subjectStore.getSubjectStore().stream()
-                .filter(subject -> subject.getSubjectId().equals(subjectId))
-                .findFirst()
-                .orElse(null);
-
-    }
-
-
-    public Score findScore(Student student, Subject subject, int round) {//수강생,과목,회차로 점수 찾는 매소드
-        return scoreStore.getScoreStore().stream()
-                .filter(score -> score.getStudentId().equals(student.getStudentId()) &&
-                        score.getSubjectId().equals(subject.getSubjectId()) &&
-                        score.getRound() == round)
-                .findFirst()
-                .orElse(null);
-    }
-
-
-    // 수강생의 과목별 회차 점수 수정 -> 기능구현시작
     public void updateRoundScoreBySubject() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호(ID)입력받기
-        // 3. ID 입력받고 ID헬퍼메서드 호출해서 ID추적. 없으면 오류(ID값 == null)
         Student student = findStudentById(studentId);
         if (student == null) {
             System.out.println("수강생을 찾을 수 없습니다.");
             return;
         }
 
-
-        //  subject 입력받고 subject헬퍼 매서드 호출해 해당 과목 찾고 없으면 오류메시지
         System.out.println("수정할 과목명을 입력해주세요 : ");
         String subjectName = sc.next();
         Subject subject = findSubjectByName(subjectName);
@@ -152,36 +113,29 @@ public class ScoreService {
             return;
         }
 
-
-        //수정할 회차와 점수 입력받고 score헬퍼 호출 해 특정과목회차점수 찾기
-        //입력 받을 수 있는 회차는 1 ~ 10 사이 수
-        int round =0;
-        while(true){
+        int round = 0;
+        while (true) {
             System.out.println("수정할 회차를 입력하세요 : ");
             round = sc.nextInt();
-            if(1<=round && round <=10){
+            if (1 <= round && round <= 10) {
                 break;
-            }
-            else{
+            } else {
                 System.out.println("회차는 1 ~ 10 사이의 숫자여야 합니다.");
             }
         }
 
-        // 점수 입력 범위 0 ~ 100으로 제한
         int scoreValue = 0;
-        while(true){
+        while (true) {
             System.out.println("수정할 점수를 입력하세요 : ");
             scoreValue = sc.nextInt();
-            if(0<=scoreValue && scoreValue <=100){
+            if (0 <= scoreValue && scoreValue <= 100) {
                 break;
-            }
-            else{
+            } else {
                 System.out.println("시험 점수는 0 ~ 100 사이의 숫자여야 합니다.");
             }
         }
 
         Score score = findScore(student, subject, round);
-        // 점수있으면 수정하고 성공메시지 출력,없으면 오류메시지 출력
         if (score != null) {
             score.setScore(scoreValue);
             System.out.println("시험 점수 수정 성공");
@@ -190,8 +144,6 @@ public class ScoreService {
         }
     }
 
-
-    // 수강생의 특정 과목 회차별 등급 조회
     public void inquireRoundGradeBySubject() {
         String studentId = getStudentId();
         System.out.print("과목명을 입력하세요: ");
@@ -208,23 +160,52 @@ public class ScoreService {
         }
         System.out.println("회차별 등급을 조회합니다...");
         for (Score score : scores) {
-            System.out.println("회차: " + score.getRound() + ", 점수: " + score.getScore()+", 등급 : "+ getGrade(score));
-
+            System.out.println("회차: " + score.getRound() + ", 점수: " + score.getScore() + ", 등급 : " + getGrade(score));
         }
         System.out.println("\n등급 조회 성공!");
     }
-    public List<Score> findScoresByStudentAndSubject(String studentId, String subjectId) {//수강생이랑 과목으로 점수 찾는 메소드
+
+    public Student findStudentById(String studentId) {
+        return studentStore.getStudentStore().stream()
+                .filter(student -> student.getStudentId().equals(studentId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Subject findSubjectByName(String subjectName) {
+        return subjectStore.getSubjectStore().stream()
+                .filter(subject -> subject.getSubjectName().equals(subjectName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Subject findSubjectNameById(String subjectId) {
+        return subjectStore.getSubjectStore().stream()
+                .filter(subject -> subject.getSubjectId().equals(subjectId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Score findScore(Student student, Subject subject, int round) {
+        return scoreStore.getScoreStore().stream()
+                .filter(score -> score.getStudentId().equals(student.getStudentId()) &&
+                        score.getSubjectId().equals(subject.getSubjectId()) &&
+                        score.getRound() == round)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<Score> findScoresByStudentAndSubject(String studentId, String subjectId) {
         return scoreStore.getScoreStore().stream()
                 .filter(score -> score.getStudentId().equals(studentId) &&
-                        score.getSubjectId().equals(subjectId))//특정 수강생, 특정 과목만 남긴다.
+                        score.getSubjectId().equals(subjectId))
                 .toList();
     }
 
-    //getGrade()
     public String getGrade(Score score) {
-        String subjectType="";
-        for (Subject subject : subjectStore.getSubjectStore()){
-            if(subject.getSubjectId().equals(score.getSubjectId())){
+        String subjectType = "";
+        for (Subject subject : subjectStore.getSubjectStore()) {
+            if (subject.getSubjectId().equals(score.getSubjectId())) {
                 subjectType = subject.getSubjectType();
                 break;
             }
@@ -261,5 +242,4 @@ public class ScoreService {
             return "F"; // 유효하지 않은 과목 유형
         }
     }
-
 }

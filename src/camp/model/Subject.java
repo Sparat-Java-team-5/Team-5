@@ -24,5 +24,12 @@ public class Subject {
         return subjectType;
     }
 
-
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "subjectId='" + subjectId + '\'' +
+                ", subjectName='" + subjectName + '\'' +
+                ", subjectType='" + subjectType + '\'' +
+                '}';
+    }
 }

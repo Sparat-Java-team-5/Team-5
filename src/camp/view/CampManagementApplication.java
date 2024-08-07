@@ -1,14 +1,10 @@
 package camp.view;
 
 import camp.database.*;
-import camp.model.Student;
-import camp.model.Subject;
 import camp.service.ScoreService;
 import camp.service.StudentService;
 import camp.service.SubjectService;
 
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.Scanner;
 
 import static camp.database.InitData.*;
@@ -25,24 +21,28 @@ public class CampManagementApplication {
     private static final Scanner sc = new Scanner(System.in);
 
     //service 객체 생성
-    private static ScoreService scoreService = new ScoreService();
-    private static StudentService studentService = new StudentService();
-    private static SubjectService subjectService = new SubjectService();
+    private static ScoreService scoreService;
+    private static StudentService studentService;
+    private static SubjectService subjectService;
 
     public static void main(String[] args) {
         try {
             InitData.initialize();
-//            subjectStore = InitData.getSubjectStore();
-//            scoreStore = InitData.getScoreStore();
+            scoreStore = InitData.getScoreStore();
+            studentStore = InitData.getStudentStore();
+            subjectTakenStore = InitData.getSubjectTakenStore();
+            subjectStore = InitData.getSubjectStore();
+
+            subjectService = new SubjectService(subjectStore, subjectTakenStore);
+            studentService = new StudentService(studentStore, subjectService);
+            scoreService = new ScoreService(scoreStore, studentStore, subjectTakenStore, subjectStore);
 
             displayMainView();
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("\n오류 발생!\n프로그램을 종료합니다.");
         }
     }
-
-    // 초기 데이터 생성
-
 
     private static void displayMainView() throws InterruptedException {
         boolean flag = true;
@@ -80,8 +80,8 @@ public class CampManagementApplication {
             int input = sc.nextInt();
 
             switch (input) {
-                case 1 -> StudentService.createStudent(); // 수강생 등록
-                case 2 -> StudentService.inquireStudent(); // 수강생 목록 조회
+                case 1 -> studentService.createStudent(); // 수강생 등록
+                case 2 -> studentService.inquireStudent(); // 수강생 목록 조회
                 case 3 -> flag = false; // 메인 화면 이동
                 default -> {
                     System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
@@ -90,11 +90,6 @@ public class CampManagementApplication {
             }
         }
     }
-
-    // 수강생 등록
-
-    // 수강생 목록 조회
-
 
     private static void displayScoreView() {
         boolean flag = true;
