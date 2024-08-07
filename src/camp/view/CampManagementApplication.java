@@ -1,10 +1,17 @@
 package camp.view;
 
+import camp.database.InitData;
+import camp.database.SubjectTakenStore;
+import camp.database.StudentStore;
+
 import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
 
 import java.util.*;
+
+import static camp.database.InitData.*;
+import static camp.database.SubjectTakenStore.getAllSubjectTakenStore;
 
 public class CampManagementApplication {
     // 데이터 저장소
@@ -14,29 +21,22 @@ public class CampManagementApplication {
     private static Map<String, ArrayList> subjectTakenStore;
 
     //Getter
-    public List<Subject> getSubjectStore(){
+    public static List<Subject> getSubjectStore(){
         return subjectStore;
     }
 
     // 과목 타입
-    private static final String SUBJECT_TYPE_MANDATORY = "MANDATORY";
-    private static final String SUBJECT_TYPE_CHOICE = "CHOICE";
-
-    // index 관리 필드
-    private static int studentIndex;
-    private static final String INDEX_TYPE_STUDENT = "ST";
-    private static int subjectIndex;
-    private static final String INDEX_TYPE_SUBJECT = "SU";
-    private static int scoreIndex;
-    private static final String INDEX_TYPE_SCORE = "SC";
 
     // 스캐너
     private static final Scanner sc = new Scanner(System.in);
 
 
     public static void main(String[] args) {
-        setInitData();
         try {
+            InitData.initialize();
+            subjectStore = InitData.getSubjectStore();
+            scoreStore = InitData.getScoreStore();
+
             displayMainView();
         } catch (Exception e) {
             System.out.println("\n오류 발생!\n프로그램을 종료합니다.");
@@ -44,76 +44,7 @@ public class CampManagementApplication {
     }
 
     // 초기 데이터 생성
-    private static void setInitData() {
-        studentStore = new ArrayList<>();
-        subjectStore = List.of(
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Java",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "객체지향",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Spring",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "JPA",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "MySQL",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "디자인 패턴",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Spring Security",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Redis",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "MongoDB",
-                        SUBJECT_TYPE_CHOICE
-                )
-        );
-        scoreStore = new ArrayList<>();
-        subjectTakenStore = new HashMap<>(); //수강한 과목 저장 데이터베이스 자료형 생성
-    }
 
-    // index 자동 증가
-    private static String sequence(String type) {
-        switch (type) {
-            case INDEX_TYPE_STUDENT -> {
-                studentIndex++;
-                return INDEX_TYPE_STUDENT + studentIndex;
-            }
-            case INDEX_TYPE_SUBJECT -> {
-                subjectIndex++;
-                return INDEX_TYPE_SUBJECT + subjectIndex;
-            }
-            default -> {
-                scoreIndex++;
-                return INDEX_TYPE_SCORE + scoreIndex;
-            }
-        }
-    }
 
     private static void displayMainView() throws InterruptedException {
         boolean flag = true;
@@ -168,7 +99,7 @@ public class CampManagementApplication {
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
         Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
-        studentStore.add(student);
+        StudentStore.addStudent(student);
 
         //수강신청된 과목 저장 배열
         ArrayList<String> mandatorySubjectTaken = new ArrayList<>();
@@ -233,6 +164,7 @@ public class CampManagementApplication {
                 }
             }
         }
+
         System.out.println("***********************************");
         if(mandatorySubjectTaken.size() == 5){
             System.out.println("===[현재 등록된 필수 과목 리스트입니다. " + mandatorySubjectTaken.size() + "과목이 등록되었습니다]===");
@@ -299,7 +231,6 @@ public class CampManagementApplication {
                     }
                 }
             }
-
         }
         System.out.println("***********************************");
         if(choiceSubjectTaken.size() == 4){
@@ -310,12 +241,11 @@ public class CampManagementApplication {
         System.out.println("선택 과목 수강 신청을 종료 합니다.\n");
 
         mandatorySubjectTaken.addAll(choiceSubjectTaken);
-        //(Key : 학생 고유 ID, Value : 학생이 수강한 과목 ArrayList) 형식으로 Map자료형에 추가
-        subjectTakenStore.put(student.getStudentId(), mandatorySubjectTaken);
+        SubjectTakenStore.addSubjectsTaken(student.getStudentId(), mandatorySubjectTaken);
 
         //확인용 출력
         System.out.println("===== 수강생이 신청한 과목 확인 출력 =====");
-        for (Map.Entry<String, ArrayList> entrySet : subjectTakenStore.entrySet()) {
+        for (Map.Entry<String, ArrayList<String>> entrySet : getAllSubjectTakenStore().entrySet()) {
             System.out.println("[ " + entrySet.getKey() + " : " + entrySet.getValue() + " ]");
         }
 
@@ -327,10 +257,11 @@ public class CampManagementApplication {
     // 수강생 목록 조회
     private static void inquireStudent() {
         System.out.println("\n수강생 목록을 조회합니다...");
-        if (studentStore.isEmpty()) {
+        Map<String, Student> students = StudentStore.getAllStudents();
+        if (students.isEmpty()) {
             System.out.println("등록된 수강생이 없습니다.");
         } else {
-            for (Student student : studentStore) {
+            for (Student student : students.values()) {
                 System.out.println("ID: " + student.getStudentId() + ", 이름: " + student.getStudentName());
             }
         }
@@ -391,7 +322,7 @@ public class CampManagementApplication {
 
         System.out.println("===[시험 점수를 등록합니다]===");
         // 수강생이 수강한 과목 정보를 가져옴
-        ArrayList<String> subjects = subjectTakenStore.get(studentId);
+        ArrayList<String> subjects = getAllSubjectTakenStore().get(studentId);
         //System.out.println("확인용 출력 : "+subjects);
 
         //수강한 과목수 만큼 돌면서 모든 과목 점수 입력받도록
