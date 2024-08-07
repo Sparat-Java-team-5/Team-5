@@ -2,6 +2,7 @@ package camp.service;
 
 import camp.database.ScoreStore;
 
+import camp.database.StudentStore;
 import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
@@ -15,16 +16,17 @@ public class ScoreService {
 
     //생성자
     public ScoreStore scoreStore;
+    public StudentStore studentStore;
 
     public String getStudentId() {
         System.out.print("\n==[관리할 수강생의 번호를 입력하시오]===");
         String studentId = sc.next();
-        if (studentStore.isEmpty()) {
+        if (studentStore.getStudentStore().isEmpty()) {
             System.out.println("===[등록된 수강생이 없습니다.]===");
             //수강생 등록 메서드 이동
             createStudent();
         }
-        for (Student student : studentStore) {
+        for (Student student : studentStore.getStudentStore()) {
             if (student.getStudentId().equals(studentId)) {
                 return studentId;
             }
@@ -94,7 +96,7 @@ public class ScoreService {
 
     //3. 헬퍼메서드 -> 기능구현에 활용할 함수
     public Student findStudentById(String studentId){ //ID로학생찾는매서드
-        return studentStore.stream() //stream : 컬렉션의 데이터를 하나씩 처리하는 도구
+        return studentStore.getStudentStore().stream() //stream : 컬렉션의 데이터를 하나씩 처리하는 도구
                 .filter(student -> student.getStudentId().equals(studentId))//getstudentId==studentId인지 비교
                 .findFirst() //걸러진 스트림에서 first요소를 find하는 것. (따라서 조건에 맞는 첫 번째 학생 객체를 반환)
                 .orElse(null); //조건에 맞는 학생 객체 없으면 null
@@ -205,7 +207,7 @@ public class ScoreService {
         }
         System.out.println("회차별 등급을 조회합니다...");
         for (Score score : scores) {
-            System.out.println("회차: " + score.getRound() + ", 점수: " + score.getScore()+", 등급 : "+ getGrade(score);
+            System.out.println("회차: " + score.getRound() + ", 점수: " + score.getScore()+", 등급 : "+ getGrade(score));
 
         }
         System.out.println("\n등급 조회 성공!");
