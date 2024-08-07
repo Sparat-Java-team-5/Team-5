@@ -11,35 +11,11 @@ public class SubjectStore {
     private static List<Subject> subjectStore = new ArrayList<>();
 
     //생성자
-    public SubjectStore(List<Subject> subjectStore){
+    public SubjectStore(List<Subject> subjectStore) {
         this.subjectStore = subjectStore;
     }
-
-    //getter
-//<<<<<<< Feat/Sumin
-    public List<Subject> getSubjectStore(){
+    public List<Subject> getSubjectStore() {
         return this.subjectStore;
     }
-
-//=======
-    public static List<Subject> getSubjectStore() {
-        return subjectStore;
-    }
-
-    //setter
-    public static void setSubjectStore(List<Subject> subjectStore) {
-        SubjectStore.subjectStore = subjectStore;
-    }
-
-    //과목 추가 메서드
-    public static void addSubject(Subject subject) {
-        subjectStore.add(subject);
-    }
-
-    //과목 삭제 메서드
-    public static void removeSubject(Subject subject) {
-        subjectStore.remove(subject);
-    }
-//>>>>>>> release1-3
 }
 
