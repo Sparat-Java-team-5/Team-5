@@ -1,6 +1,10 @@
 package camp.database;
 
 import camp.model.*;
+import camp.service.ScoreService;
+import camp.service.StudentService;
+import camp.service.SubjectService;
+import camp.view.CampManagementApplication;
 
 import java.util.*;
 
@@ -16,6 +20,10 @@ public class InitData {
     public static final String INDEX_TYPE_SUBJECT = "SU";
     private static int scoreIndex;
     public static final String INDEX_TYPE_SCORE = "SC";
+
+    private static ScoreService scoreService;
+    private static StudentService studentService;
+    private static SubjectService subjectService;
 
     private static StudentStore studentStore;
     private static SubjectStore subjectStore;
@@ -42,6 +50,12 @@ public class InitData {
         subjectStore = new SubjectStore(subjects);
         scoreStore = new ScoreStore(new ArrayList<>());
         subjectTakenStore = new SubjectTakenStore(new HashMap<>());
+
+        subjectService = new SubjectService(subjectStore, subjectTakenStore);
+        studentService = new StudentService(studentStore, subjectService);
+        scoreService = new ScoreService(scoreStore, studentStore, subjectTakenStore, subjectStore);
+
+        CampManagementApplication campManagementApplication = new CampManagementApplication(scoreService, studentService, subjectService);
     }
 
     public static String sequence(String type) {
@@ -61,19 +75,4 @@ public class InitData {
         }
     }
 
-    public static StudentStore getStudentStore() {
-        return studentStore;
-    }
-
-    public static SubjectStore getSubjectStore() {
-        return subjectStore;
-    }
-
-    public static ScoreStore getScoreStore() {
-        return scoreStore;
-    }
-
-    public static SubjectTakenStore getSubjectTakenStore() {
-        return subjectTakenStore;
-    }
 }

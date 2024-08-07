@@ -11,12 +11,6 @@ import static camp.database.InitData.*;
 
 public class CampManagementApplication {
 
-    //생성자
-    public static ScoreStore scoreStore;
-    public static StudentStore studentStore;
-    public static SubjectTakenStore subjectTakenStore;
-    public static SubjectStore subjectStore;
-
     // 스캐너
     private static final Scanner sc = new Scanner(System.in);
 
@@ -25,17 +19,15 @@ public class CampManagementApplication {
     private static StudentService studentService;
     private static SubjectService subjectService;
 
+    public CampManagementApplication(ScoreService scoreService, StudentService studentService, SubjectService subjectService){
+        this.scoreService = scoreService;
+        this.studentService = studentService;
+        this.subjectService = subjectService;
+    }
+
     public static void main(String[] args) {
         try {
             InitData.initialize();
-            scoreStore = InitData.getScoreStore();
-            studentStore = InitData.getStudentStore();
-            subjectTakenStore = InitData.getSubjectTakenStore();
-            subjectStore = InitData.getSubjectStore();
-
-            subjectService = new SubjectService(subjectStore, subjectTakenStore);
-            studentService = new StudentService(studentStore, subjectService);
-            scoreService = new ScoreService(scoreStore, studentStore, subjectTakenStore, subjectStore);
 
             displayMainView();
         } catch (Exception e) {
