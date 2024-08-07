@@ -17,16 +17,21 @@ public class InitData {
     private static int scoreIndex;
     public static final String INDEX_TYPE_SCORE = "SC";
 
-    //setInitData()
-    //sequence()
+
     public static void initialize() {
         setInitData();
     }
 
 
     private static void setInitData() {
+//<<<<<<< Feat/Sumin
         StudentStore studentStore = new StudentStore(new ArrayList<>());
         List<Subject> subjects = List.of(
+//=======
+        ArrayList<Subject> Subject = new ArrayList<>();
+        StudentStore studentstore = new StudentStore();
+        subjectStore = List.of(
+//>>>>>>> release1-3
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
                         "Java",
