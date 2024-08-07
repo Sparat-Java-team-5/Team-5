@@ -10,6 +10,12 @@ public class ScoreStore {
     private static List<Score> scoreStore;
 
     //getter
+    public List<Score> getScoreStore(){
+        return scoreStore;
+    }
 
     //setter
+    public void setScoreStore(Score scoreObject){
+        scoreStore.add(scoreObject);
+    }
 }
