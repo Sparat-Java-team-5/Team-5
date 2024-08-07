@@ -29,6 +29,7 @@ public class SubjectService {
                 .filter(subject -> subject.getSubjectType().equals("CHOICE"))
                 .forEach(subject -> System.out.println(subject.getSubjectName()));
 
+
         System.out.println("수강할 선택 과목명을 입력하세요 (최대 2개): ");
         int choiceCount = 0;
         while (choiceCount < 2) {
