@@ -49,17 +49,21 @@ public class ScoreService {
             createScore();
         }
 
-        System.out.println("===[시험 점수를 등록합니다]===");
-        // 수강생이 수강한 과목 정보를 가져옴
-        ArrayList<String> subjects = subjectTakenStore.getSubjectTakenStore().get(studentId);
+
 
         //수강한 과목수 만큼 돌면서 모든 과목 점수 입력받도록
         boolean againSc = true;
         while (againSc) {
+            // 수강생이 수강한 과목 정보를 가져옴
+            ArrayList<String> subjects = subjectTakenStore.getSubjectTakenStore().get(studentId);
+            System.out.println("===[시험 점수를 등록합니다]===");
+
             for(String subjectId : subjects){
                 Subject subjectName = findSubjectNameById(subjectId);
                 System.out.println("[" + subjectId + "] : "+ subjectName.getSubjectName());
             }
+
+
 
             System.out.println("수정할 과목명을 입력해주세요 : ");
             String subjectName = sc.next();
@@ -72,12 +76,39 @@ public class ScoreService {
             System.out.println("[선택한 과목 고유코드 입니다] : " + selectedSubjectId);
 
             System.out.println("=========점수를 등록합니다=========");
-            for (int i = 0; i < 10; i++) {
-                System.out.println(i + 1 + " 회차 점수를 입력해 주세요 : ");
-                int scoreInput = sc.nextInt();
-                Score scoreObject = new Score(InitData.sequence(INDEX_TYPE_SCORE), studentId, selectedSubjectId, i+1, scoreInput);
-                scoreStore.setScoreStore(scoreObject);
+
+            int round = 0;
+            while (true) {
+                System.out.println("점수 등록할 회차를 입력하세요 : ");
+                round = sc.nextInt();
+                if (1 <= round && round <= 10) {
+                    for(Score score : scoreStore.getScoreStore()){
+                        if(score.getRound() == round){
+                            System.out.println("이미 해당 회차의 점수가 존재합니다.");
+                            createScore();
+                        }
+                    }
+                    break;
+                } else {
+                    System.out.println("회차는 1 ~ 10 사이의 숫자여야 합니다.");
+                }
             }
+
+            System.out.println(round + " 회차 점수를 입력해 주세요 : ");
+
+            int scoreValue = 0;
+            while (true) {
+                System.out.println("등록할 점수를 입력하세요 : ");
+                scoreValue = sc.nextInt();
+                if (0 <= scoreValue && scoreValue <= 100) {
+                    break;
+                } else {
+                    System.out.println("시험 점수는 0 ~ 100 사이의 숫자여야 합니다.");
+                }
+            }
+
+            Score scoreObject = new Score(InitData.sequence(INDEX_TYPE_SCORE), studentId, selectedSubjectId, round, scoreValue);
+            scoreStore.setScoreStore(scoreObject);
 
             System.out.println("\n===[점수 등록 성공!]===");
 

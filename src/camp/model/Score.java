@@ -16,8 +16,7 @@ public class Score {
     private int round;
     //점수
     private int score;
-    //CampManagementApplication 인스턴스 (이 클래스에서는 사용되지 않음
-    CampManagementApplication campManagementApplication = new CampManagementApplication();
+
 
 
 

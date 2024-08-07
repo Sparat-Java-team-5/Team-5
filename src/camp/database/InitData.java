@@ -1,12 +1,16 @@
 package camp.database;
 
 import camp.model.*;
+import camp.service.ScoreService;
+import camp.service.StudentService;
+import camp.service.SubjectService;
+import camp.view.CampManagementApplication;
 
 import java.util.*;
 
 public class InitData {
 
-    //필수 선택 과목과 선택 과목의 타입
+    // 상수로 정의된 필수 과목과 선택 과목의 타입
     public static final String SUBJECT_TYPE_MANDATORY = "MANDATORY";
     public static final String SUBJECT_TYPE_CHOICE = "CHOICE";
 
@@ -19,6 +23,10 @@ public class InitData {
     public static final String INDEX_TYPE_SCORE = "SC";
 
     //데이터 저장소
+    private static ScoreService scoreService;
+    private static StudentService studentService;
+    private static SubjectService subjectService;
+    // 데이터 저장소
     private static StudentStore studentStore;
     private static SubjectStore subjectStore;
     private static ScoreStore scoreStore;
@@ -46,12 +54,16 @@ public class InitData {
                 new Subject(sequence(INDEX_TYPE_SUBJECT), "MongoDB", SUBJECT_TYPE_CHOICE)
         );
         subjectStore = new SubjectStore(subjects);
-
         //점수 저장소 초기화
         scoreStore = new ScoreStore(new ArrayList<>());
-
         //수강한 과목 저장소 초기화
         subjectTakenStore = new SubjectTakenStore(new HashMap<>());
+
+        subjectService = new SubjectService(subjectStore, subjectTakenStore);
+        studentService = new StudentService(studentStore, subjectService);
+        scoreService = new ScoreService(scoreStore, studentStore, subjectTakenStore, subjectStore);
+
+        CampManagementApplication campManagementApplication = new CampManagementApplication(scoreService, studentService, subjectService);
     }
 
     //인덱스 값을 생성하는 메서드
@@ -72,20 +84,5 @@ public class InitData {
             }
         }
     }
-    //학생 저장소를 반환하는 메서드
-    public static StudentStore getStudentStore() {
-        return studentStore;
-    }
-    //과목 저장소를 반환하는 메서드
-    public static SubjectStore getSubjectStore() {
-        return subjectStore;
-    }
-    // 점수 저장소를 반환하는 메서드
-    public static ScoreStore getScoreStore() {
-        return scoreStore;
-    }
-    //수강한 과목 저장소를 반환하는 메서드
-    public static SubjectTakenStore getSubjectTakenStore() {
-        return subjectTakenStore;
-    }
+
 }
