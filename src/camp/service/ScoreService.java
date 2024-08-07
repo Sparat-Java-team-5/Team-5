@@ -11,7 +11,8 @@ public class ScoreService {
     //스캐너
     private static final Scanner sc = new Scanner(System.in);
 
-    public ScoreStore scoreStore = new ScoreStore();
+    //생성자
+    public ScoreStore scoreStore;
 
     public String getStudentId() {
         System.out.print("\n==[관리할 수강생의 번호를 입력하시오]===");

@@ -9,13 +9,18 @@ public class ScoreStore {
     //점수를 저장하는 리스트 자료구조
     private static List<Score> scoreStore;
 
+    //생성자
+    public ScoreStore(List<Score> scoreStore){
+        this.scoreStore = scoreStore;
+    }
+
     //getter
     public List<Score> getScoreStore(){
-        return scoreStore;
+        return this.scoreStore;
     }
 
     //setter
     public void setScoreStore(Score scoreObject){
-        scoreStore.add(scoreObject);
+        this.scoreStore.add(scoreObject);
     }
 }
