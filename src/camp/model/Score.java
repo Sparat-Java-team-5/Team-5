@@ -6,15 +6,21 @@ import java.util.List;
 
 
 public class Score {
+    //점수 ID
     private String scoreId;//
+    //학생 ID
     private String studentId;
+    //과목 ID
     private String subjectId;
+    //시험 회차
     private int round;
+    //점수
     private int score;
+    //CampManagementApplication 인스턴스 (이 클래스에서는 사용되지 않음
     CampManagementApplication campManagementApplication = new CampManagementApplication();
 
 
-    //Student student, Subject subject,
+
     public Score(String seq, String studentId, String subjectId, int round, int score) {
         this.scoreId = seq;
         this.studentId = studentId;

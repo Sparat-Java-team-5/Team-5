@@ -19,8 +19,8 @@ public class StudentService {
 
     //createStudent()
     public static void createStudent() {
-        System.out.println("\n수강생을 등록합니다...");
-        System.out.print("수강생 이름 입력: ");
+        System.out.println("\n===[수강생을 등록합니다]===");
+        System.out.print("[수강생 이름 입력] : ");
         String studentName = sc.next();
         Student student = new Student(INDEX_TYPE_STUDENT + studentStore.getStudentStore().size() + 1, studentName);
         studentStore.setStudentStore(student);
@@ -31,14 +31,14 @@ public class StudentService {
     }
 
     public void inquireStudent() {
-        System.out.println("\n수강생 목록을 조회합니다...");
+        System.out.println("\n===[수강생 목록을 조회합니다]===");
         if (studentStore.getStudentStore().isEmpty()) {
-            System.out.println("등록된 수강생이 없습니다.");
+            System.out.println("===[등록된 수강생이 없습니다.]===");
         } else {
             for (Student students : studentStore.getStudentStore()) {
-                System.out.println("ID: " + students.getStudentId() + ", 이름: " + students.getStudentName());
+                System.out.println("[ID : " + students.getStudentId() + "]   [이름 : " + students.getStudentName()+"]");
             }
         }
-        System.out.println("\n수강생 목록 조회 성공!");
+        System.out.println("\n===[수강생 목록 조회 성공!]===");
     }
 }

@@ -26,7 +26,7 @@ public class ScoreService {
     }
 
     public String getStudentId() {
-        System.out.print("\n==[관리할 수강생의 번호를 입력하시오]===");
+        System.out.print("\n===[관리할 수강생의 번호를 입력하시오]===");
         String studentId = sc.next();
         if (studentStore.getStudentStore().isEmpty()) {
             System.out.println("===[등록된 수강생이 없습니다.]===");
@@ -101,68 +101,68 @@ public class ScoreService {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호(ID)입력받기
         Student student = findStudentById(studentId);
         if (student == null) {
-            System.out.println("수강생을 찾을 수 없습니다.");
+            System.out.println("===[수강생을 찾을 수 없습니다.]===");
             return;
         }
 
-        System.out.println("수정할 과목명을 입력해주세요 : ");
+        System.out.println("[수정할 과목명을 입력해주세요] : ");
         String subjectName = sc.next();
         Subject subject = findSubjectByName(subjectName);
         if (subject == null) {
-            System.out.println("과목을 찾을 수 없습니다.");
+            System.out.println("===[과목을 찾을 수 없습니다.]===");
             return;
         }
 
         int round = 0;
         while (true) {
-            System.out.println("수정할 회차를 입력하세요 : ");
+            System.out.println("[수정할 회차를 입력하세요] : ");
             round = sc.nextInt();
             if (1 <= round && round <= 10) {
                 break;
             } else {
-                System.out.println("회차는 1 ~ 10 사이의 숫자여야 합니다.");
+                System.out.println("===[회차는 1 ~ 10 사이의 숫자여야 합니다.]===");
             }
         }
 
         int scoreValue = 0;
         while (true) {
-            System.out.println("수정할 점수를 입력하세요 : ");
+            System.out.println("[수정할 점수를 입력하세요] : ");
             scoreValue = sc.nextInt();
             if (0 <= scoreValue && scoreValue <= 100) {
                 break;
             } else {
-                System.out.println("시험 점수는 0 ~ 100 사이의 숫자여야 합니다.");
+                System.out.println("===[시험 점수는 0 ~ 100 사이의 숫자여야 합니다.]===");
             }
         }
 
         Score score = findScore(student, subject, round);
         if (score != null) {
             score.setScore(scoreValue);
-            System.out.println("시험 점수 수정 성공");
+            System.out.println("===[시험 점수 수정 성공]===");
         } else {
-            System.out.println("해당 회차의 점수를 찾을 수 없습니다.");
+            System.out.println("===[해당 회차의 점수를 찾을 수 없습니다.]===");
         }
     }
 
     public void inquireRoundGradeBySubject() {
         String studentId = getStudentId();
-        System.out.print("과목명을 입력하세요: ");
+        System.out.print("[과목명을 입력하세요] : ");
         String subjectName = sc.next();
         Subject subject = findSubjectByName(subjectName);
         if (subject == null) {
-            System.out.println("과목을 찾을 수 없습니다. 과목명을 확인해주세요.");
+            System.out.println("===[과목을 찾을 수 없습니다. 과목명을 확인해주세요.]===");
             return;
         }
         List<Score> scores = findScoresByStudentAndSubject(studentId, subject.getSubjectId());
         if (scores.isEmpty()) {
-            System.out.println("해당 과목에 대한 점수가 존재하지 않습니다.");
+            System.out.println("===[해당 과목에 대한 점수가 존재하지 않습니다.]===");
             return;
         }
-        System.out.println("회차별 등급을 조회합니다...");
+        System.out.println("===[회차별 등급을 조회합니다.]===");
         for (Score score : scores) {
-            System.out.println("회차: " + score.getRound() + ", 점수: " + score.getScore() + ", 등급 : " + getGrade(score));
+            System.out.println("[회차] : " + score.getRound() + ", [점수] : " + score.getScore() + ", [등급] : " + getGrade(score));
         }
-        System.out.println("\n등급 조회 성공!");
+        System.out.println("\n===[등급 조회 성공!]=== ");
     }
 
     public Student findStudentById(String studentId) {
