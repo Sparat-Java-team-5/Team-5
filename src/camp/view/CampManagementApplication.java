@@ -4,6 +4,8 @@ import camp.database.*;
 import camp.model.Student;
 import camp.model.Subject;
 import camp.service.ScoreService;
+import camp.service.StudentService;
+import camp.service.SubjectService;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -24,6 +26,8 @@ public class CampManagementApplication {
 
     //service 객체 생성
     private static ScoreService scoreService = new ScoreService();
+    private static StudentService studentService = new StudentService();
+    private static SubjectService subjectService = new SubjectService();
 
     public static void main(String[] args) {
         try {
@@ -76,8 +80,8 @@ public class CampManagementApplication {
             int input = sc.nextInt();
 
             switch (input) {
-                case 1 -> createStudent(); // 수강생 등록
-                case 2 -> inquireStudent(); // 수강생 목록 조회
+                case 1 -> StudentService.createStudent(); // 수강생 등록
+                case 2 -> StudentService.inquireStudent(); // 수강생 목록 조회
                 case 3 -> flag = false; // 메인 화면 이동
                 default -> {
                     System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
@@ -88,29 +92,9 @@ public class CampManagementApplication {
     }
 
     // 수강생 등록
-    public static void createStudent() {
-        System.out.println("\n수강생을 등록합니다...");
-        System.out.print("수강생 이름 입력: ");
-        String studentName = sc.next();
-        Student student = new Student(InitData.sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
-        studentStore.setStudentStore(student);
 
-        //성공
-        System.out.println("****** 수강생 등록 및 과목 등록 성공! *****\n");
-
-    }
     // 수강생 목록 조회
-    private static void inquireStudent() {
-        System.out.println("\n수강생 목록을 조회합니다...");
-        if (studentStore.getStudentStore().isEmpty()) {
-            System.out.println("등록된 수강생이 없습니다.");
-        } else {
-            for (Student students : studentStore.getStudentStore()) {
-                System.out.println("ID: " + students.getStudentId() + ", 이름: " + students.getStudentName());
-            }
-        }
-        System.out.println("\n수강생 목록 조회 성공!");
-    }
+
 
     private static void displayScoreView() {
         boolean flag = true;

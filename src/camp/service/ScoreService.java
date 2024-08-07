@@ -25,7 +25,7 @@ public class ScoreService {
         if (studentStore.getStudentStore().isEmpty()) {
             System.out.println("===[등록된 수강생이 없습니다.]===");
             //수강생 등록 메서드 이동
-            CampManagementApplication.createStudent();
+            StudentService.createStudent();
         }
         for (Student student : studentStore.getStudentStore()) {
             if (student.getStudentId().equals(studentId)) {
