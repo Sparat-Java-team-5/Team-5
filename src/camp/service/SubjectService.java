@@ -30,35 +30,4 @@ public class SubjectService {
         subjectTakenStore.put(student.getStudentId(), new ArrayList<>(mandatorySubjects));
         System.out.println("필수 과목이 등록되었습니다.\n");
 
-        System.out.println("[선택 과목 목록]");
-        SubjectStore.getSubjectStore().stream()
-                .filter(subject -> subject.getSubjectType().equals("CHOICE"))
-                .forEach(subject -> System.out.println(subject.getSubjectName()));
-
-        System.out.println("수강할 선택 과목명을 입력하세요 (최대 2개): ");
-        int choiceCount = 0;
-        while (choiceCount < 2) {
-            System.out.print((choiceCount + 1) + "번째 선택 과목: ");
-            String chosenSubjectName = sc.next();
-            Subject chosenSubject = findSubjectByName(chosenSubjectName);
-
-            if (chosenSubject != null && chosenSubject.getSubjectType().equals("CHOICE")) {
-                subjectTakenStore.get(student.getStudentId()).add(chosenSubject.getSubjectId());
-                choiceCount++;
-            } else {
-                System.out.println("올바른 선택 과목명을 입력하세요.");
-            }
-        }
-
-        System.out.println("선택 과목 등록이 완료되었습니다.");
-    }
-
-    private Subject findSubjectByName(String subjectName) {
-        for (Subject subject : SubjectStore.getSubjectStore()) {
-            if (subject.getSubjectName().equals(subjectName)) {
-                return subject;
-            }
-        }
-        return null;
-    }
 }

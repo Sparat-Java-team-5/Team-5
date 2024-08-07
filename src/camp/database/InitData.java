@@ -34,8 +34,8 @@ public class InitData {
 
 
     private static void setInitData() {
-
-        StudentStore studentstore = new StudentStore(StudentStore);
+        ArrayList<Subject> Subject = new ArrayList<>();
+        StudentStore studentstore = new StudentStore();
         subjectStore = List.of(
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
