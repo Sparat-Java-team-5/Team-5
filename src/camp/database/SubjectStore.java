@@ -10,7 +10,18 @@ public class SubjectStore {
     //과목 정보를 저장하는 리스트 자료구조
     private static List<Subject> subjectStore = new ArrayList<>();
 
+    //생성자
+    public SubjectStore(List<Subject> subjectStore){
+        this.subjectStore = subjectStore;
+    }
+
     //getter
+//<<<<<<< Feat/Sumin
+    public List<Subject> getSubjectStore(){
+        return this.subjectStore;
+    }
+
+//=======
     public static List<Subject> getSubjectStore() {
         return subjectStore;
     }
@@ -29,5 +40,6 @@ public class SubjectStore {
     public static void removeSubject(Subject subject) {
         subjectStore.remove(subject);
     }
+//>>>>>>> release1-3
 }
 
