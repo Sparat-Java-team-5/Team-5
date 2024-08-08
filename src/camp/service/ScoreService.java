@@ -112,13 +112,13 @@ public class ScoreService {
 
             System.out.println("\n===[점수 등록 성공!]===");
 
-            for(Score score : scoreStore.getScoreStore()){  // 모든 점수를 순회하며 출력
-                System.out.println(score.getScoreId());// 점수 ID 출력
-                System.out.println(score.getStudentId()); // 학생 ID 출력
-                System.out.println(score.getSubjectId()); // 과목 ID 출력
-                System.out.println(score.getRound()); // 시험 회차 출력
-                System.out.println(score.getScore()); // 점수 출력
-            }
+//            for(Score score : scoreStore.getScoreStore()){  // 모든 점수를 순회하며 출력
+//                System.out.println(score.getScoreId());// 점수 ID 출력
+//                System.out.println(score.getStudentId()); // 학생 ID 출력
+//                System.out.println(score.getSubjectId()); // 과목 ID 출력
+//                System.out.println(score.getRound()); // 시험 회차 출력
+//                System.out.println(score.getScore()); // 점수 출력
+//            }
 
             System.out.println("===[다른 과목 점수를 등록하시겠습니까? (yes / no)]===");
             String againScore = sc.next();
