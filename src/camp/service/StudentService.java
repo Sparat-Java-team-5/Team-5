@@ -1,5 +1,6 @@
 package camp.service;
 
+import camp.database.InitData;
 import camp.database.StudentStore;
 import camp.model.Student;
 
@@ -22,7 +23,7 @@ public class StudentService {
         System.out.print("[수강생 이름 입력] : ");
         String studentName = sc.next();
         // 새로운 수강생 객체 생성
-        Student student = new Student(INDEX_TYPE_STUDENT + studentStore.getStudentStore().size() + 1, studentName);
+        Student student = new Student(InitData.sequence(INDEX_TYPE_STUDENT), studentName);
         studentStore.setStudentStore(student);// 학생 저장소에 수강생 추가
 
         //수강생에게 과목 등록
