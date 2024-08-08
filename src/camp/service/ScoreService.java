@@ -56,15 +56,13 @@ public class ScoreService {
         boolean againSc = true;
         while (againSc) {
             // 수강생이 수강한 과목 정보를 가져옴
-            ArrayList<String> subjects = subjectTakenStore.getSubjectTakenStore().get(studentId);
+//            ArrayList<String> subjects = subjectTakenStore.getSubjectTakenStore().get(studentId);
             System.out.println("===[시험 점수를 등록합니다]===");
 
-            for(String subjectId : subjects){ // 모든 수강한 과목을 순회
+            for(String subjectId : subjectTakenStore.getSubjectTakenStore().get(studentId)){ // 모든 수강한 과목을 순회
                 Subject subjectName = findSubjectNameById(subjectId); // 과목 ID로 과목 이름을 찾음
                 System.out.println("[" + subjectId + "] : "+ subjectName.getSubjectName());// 과목 ID와 이름 출력
             }
-
-
 
             System.out.println("수정할 과목명을 입력해주세요 : ");
             String subjectName = sc.next();
