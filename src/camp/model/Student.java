@@ -1,8 +1,8 @@
 package camp.model;
 
 public class Student {
-    private String studentId;
-    private String studentName;
+    private final String studentId;
+    private final String studentName;
 
     public Student(String seq, String studentName) {
         this.studentId = seq;
