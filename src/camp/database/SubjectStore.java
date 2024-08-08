@@ -12,6 +12,7 @@ public class SubjectStore {
         //초기화된 과목 리스트를 클래스 변수에 할당
         this.subjectStore = subjectStore;
     }
+
     //과목 저장소 리스트를 반환하는 getter 메서드
     public List<Subject> getSubjectStore() {
         return this.subjectStore;

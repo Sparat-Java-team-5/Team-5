@@ -40,7 +40,6 @@ public class InitData {
     private static void setInitData() {
         //학생 저장소 초기화
         studentStore = new StudentStore(new ArrayList<>());
-
         //과목 리스트 초기화 및 과목 저장소 설정
         List<Subject> subjects = List.of(
                 new Subject(sequence(INDEX_TYPE_SUBJECT), "Java", SUBJECT_TYPE_MANDATORY),

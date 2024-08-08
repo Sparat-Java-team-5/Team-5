@@ -7,7 +7,6 @@ import java.util.*;
 public class StudentStore {
     //학생 데이터를 저장하는 리스트
     private static List<Student> studentStore;
-
     //생성자 : 학생 저장소를 초기화
     public StudentStore(List<Student> studentStore) {
         //초기화된 학생 리스트를 클래스 변수에 할당

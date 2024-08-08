@@ -16,7 +16,6 @@ public class StudentService {
         this.studentStore = studentStore; //학생 저장소 초기화
         this.subjectService = subjectService; // 과목 서비스 초기화
     }
-
     //createStudent()
     public static void createStudent() {
         System.out.println("\n===[수강생을 등록합니다]===");

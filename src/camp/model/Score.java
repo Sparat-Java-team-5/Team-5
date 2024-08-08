@@ -1,10 +1,5 @@
 package camp.model;
 
-import camp.view.CampManagementApplication;
-
-import java.util.List;
-
-
 public class Score {
     //점수 ID
     private String scoreId;//
@@ -16,9 +11,6 @@ public class Score {
     private int round;
     //점수
     private int score;
-
-
-
 
     public Score(String seq, String studentId, String subjectId, int round, int score) {
         this.scoreId = seq;

@@ -11,8 +11,7 @@ public class Student {
         this.studentId = seq; //학생 ID를 초기화
         this.studentName = studentName; // 학생 이름을 초기화
     }
-
-    // Getter 메서드 : 각 필드 값을 반환
+    // Getter 메서드 : 각 필드 값을 반
     public String getStudentId() {
         return studentId;
     }

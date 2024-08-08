@@ -7,7 +7,7 @@ import camp.service.SubjectService;
 
 import java.util.Scanner;
 
-import static camp.database.InitData.*;
+
 
 public class CampManagementApplication {
 

@@ -82,6 +82,7 @@ public class SubjectService {
                 }
             }
         }
+
         System.out.println("***********************************");
         if (mandatorySubjectTaken.size() == 5) { //필수 과목이 5개일때
             System.out.println("===[현재 등록된 필수 과목 리스트입니다. " + mandatorySubjectTaken.size() + "과목이 등록되었습니다]===");

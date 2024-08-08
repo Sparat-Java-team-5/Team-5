@@ -1,7 +1,7 @@
 package camp.database;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.Map;
 
 public class SubjectTakenStore {
@@ -17,7 +17,6 @@ public class SubjectTakenStore {
         //전달받은 학생 ID와 과목 리스트를 맵에 추가
         this.subjectTakenStore.put(studentId, subjects);
     }
-
     //수강한 과목 저장소를 반환하는 getter 메서드
     public Map<String, ArrayList<String>> getSubjectTakenStore() {
         return this.subjectTakenStore;

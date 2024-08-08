@@ -29,7 +29,6 @@ public class ScoreService {
         this.subjectTakenStore = subjectTakenStore;//수강한 과목
         this.subjectStore = subjectStore;//과목 저장소
     }
-
     public String getStudentId() {
         System.out.print("\n===[관리할 수강생의 번호를 입력하시오]===");
         String studentId = sc.next();
