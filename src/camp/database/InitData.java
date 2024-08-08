@@ -59,6 +59,7 @@ public class InitData {
         //수강한 과목 저장소 초기화
         subjectTakenStore = new SubjectTakenStore(new HashMap<>());
 
+        //서비스 초기화
         subjectService = new SubjectService(subjectStore, subjectTakenStore);
         studentService = new StudentService(studentStore, subjectService);
         scoreService = new ScoreService(scoreStore, studentStore, subjectTakenStore, subjectStore);

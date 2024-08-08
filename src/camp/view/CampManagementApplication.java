@@ -19,10 +19,11 @@ public class CampManagementApplication {
     private static StudentService studentService;
     private static SubjectService subjectService;
 
+    //생성자
     public CampManagementApplication(ScoreService scoreService, StudentService studentService, SubjectService subjectService){
-        this.scoreService = scoreService;
-        this.studentService = studentService;
-        this.subjectService = subjectService;
+        this.scoreService = scoreService; //스코어 서비스 초기화
+        this.studentService = studentService; //학생 서비스 초기화
+        this.subjectService = subjectService; //성적 서비스 초기화
     }
 
     public static void main(String[] args) {
@@ -31,11 +32,11 @@ public class CampManagementApplication {
 
             displayMainView();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); //예외 발생 시 스택 트레이스 출력
             System.out.println("\n오류 발생!\n프로그램을 종료합니다.");
         }
     }
-
+    //메인 화면 출력 메서드
     private static void displayMainView() throws InterruptedException {
         boolean flag = true;
         while (flag) {

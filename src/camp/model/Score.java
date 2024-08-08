@@ -29,7 +29,7 @@ public class Score {
 
     }
 
-    // Getter
+    // Getter 메서드 : 각 필드 값을 반환
     public String getScoreId() {
         return scoreId;
     }
@@ -50,7 +50,7 @@ public class Score {
         return score;
     }
 
-    // Setter
+    // Setter 메서드 : 점수를 설정
     public void setScore(int score) {
         this.score = score;
     }
